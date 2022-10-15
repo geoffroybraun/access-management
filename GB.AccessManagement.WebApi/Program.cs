@@ -1,6 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using GB.AccessManagement.WebApi;
 
-app.MapGet("/", () => "It works!");
+var builder = WebApplication.CreateBuilder(args);
+var startup = new Startup();
+
+startup.ConfigureServices(builder.Services);
+
+var app = builder.Build();
+startup.Configure(app);
 
 await app.RunAsync();
