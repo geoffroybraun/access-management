@@ -1,0 +1,50 @@
+version: '3.8'
+
+networks:
+  access:
+
+services:
+  postgres:
+    image: postgres:14
+    networks:
+      - access
+    environment:
+      - POSTGRES_USER=web-api
+      - POSTGRES_PASSWORD=cTZGoXV2YKJXbvqqJVpU2q4CHQfPsvAC
+      - POSTGRES_DB=access-db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U web-api" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  migrations:
+    image: openfga/openfga
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: |
+      migrate
+    environment: 
+      - OPENFGA_DATASTORE_ENGINE=postgres
+      - OPENFGA_DATASTORE_URI=postgres://web-api:cTZGoXV2YKJXbvqqJVpU2q4CHQfPsvAC@postgres:5432/access-db
+    networks:
+      - access
+
+  web-api:
+    image: openfga/openfga
+    environment:
+      - OPENFGA_DATASTORE_ENGINE=postgres
+      - OPENFGA_DATASTORE_URI=postgres://web-api:cTZGoXV2YKJXbvqqJVpU2q4CHQfPsvAC@postgres:5432/access-db
+      - OPENFGA_LOG_FORMAT=json
+    command: run
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    networks:
+      - access
+    ports:
+      - "8080:8080"
+      - "3000:3000"
