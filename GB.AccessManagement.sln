@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.WebApi", "GB.AccessManagement.WebApi\GB.AccessManagement.WebApi.csproj", "{86F71A56-2775-4108-857C-E3F13867402F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86F71A56-2775-4108-857C-E3F13867402F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F71A56-2775-4108-857C-E3F13867402F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86F71A56-2775-4108-857C-E3F13867402F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86F71A56-2775-4108-857C-E3F13867402F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
