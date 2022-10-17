@@ -1,4 +1,5 @@
-using GB.AccessManagement.WebApi.Endpoints;
+using GB.AccessManagement.WebApi.Services;
+using Scrutor;
 
 namespace GB.AccessManagement.WebApi.Configurations;
 
@@ -8,11 +9,25 @@ public sealed class ScrutorConfiguration : IWebApiConfiguration
     {
         _ = services.Scan(selector =>
         {
-            selector
-                .FromAssemblies(typeof(IWebApiConfiguration).Assembly)
-                .AddClasses(classes => classes.AssignableTo(typeof(IEndpoint<>)))
-                .AsImplementedInterfaces()
-                .WithScopedLifetime();
+            var assembliesSelector = selector.FromAssemblies(typeof(IWebApiConfiguration).Assembly);
+            AddTransientClasses(assembliesSelector);
+            AddScopedClasses(assembliesSelector);
         });
+    }
+
+    private static void AddTransientClasses(IImplementationTypeSelector selector)
+    {
+        _ = selector
+            .AddClasses(classes => classes.AssignableTo<ITransientService>())
+            .AsImplementedInterfaces()
+            .WithTransientLifetime();
+    }
+
+    private static void AddScopedClasses(IImplementationTypeSelector selector)
+    {
+        _ = selector
+            .AddClasses(classes => classes.AssignableTo<IScopedService>())
+            .AsImplementedInterfaces()
+            .WithScopedLifetime();
     }
 }

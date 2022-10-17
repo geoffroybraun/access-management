@@ -1,17 +1,26 @@
 using System.Reflection;
+using Asp.Versioning.Builder;
+using GB.AccessManagement.WebApi.Configurations.Constants;
 using GB.AccessManagement.WebApi.Endpoints;
 
 namespace GB.AccessManagement.WebApi.Extensions;
 
-public static class WebApplicationExtension
+public static partial class WebApplicationExtension
 {
-    public static void MapEndpointDescriptors(this WebApplication app, params Assembly[] assemblies)
+    public static WebApplication MapEndpointDescriptors(this WebApplication app, params Assembly[] assemblies)
     {
+        var apiVersions = app
+            .NewApiVersionSet()
+            .HasApiVersion(ApiVersions.Version1_0)
+            .Build();
+        
         assemblies
             .SelectMany(FilterEndpointDesciptors)
             .Distinct()
             .ToList()
-            .ForEach(descriptor => descriptor.Describe(app));
+            .ForEach(descriptor => descriptor.Describe(app, apiVersions));
+
+        return app;
     }
 
     private static IEndpointDescriptor[] FilterEndpointDesciptors(Assembly assembly)
