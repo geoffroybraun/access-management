@@ -17,6 +17,7 @@ public sealed class HelloWorldEndpointDescriptor : IEndpointDescriptor
 
                     return await endpoint.Handle(request);
                 })
+            .RequireAuthorization()
             .WithName("HelloWorld")
             .WithTags("Hello world")
             .WithApiVersionSet(apiVersions)

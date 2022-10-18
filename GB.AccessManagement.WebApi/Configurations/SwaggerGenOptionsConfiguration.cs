@@ -1,6 +1,8 @@
 using Asp.Versioning.ApiExplorer;
+using GB.AccessManagement.WebApi.Authentication;
 using GB.AccessManagement.WebApi.Services;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace GB.AccessManagement.WebApi.Configurations;
@@ -31,6 +33,28 @@ public sealed class SwaggerGenOptionsConfiguration : IConfigureOptions<SwaggerGe
                 {
                     Name = "Geoffroy BRAUN",
                     Url = new("https://github.com/geoffroybraun/")
+                }
+            });
+            options.AddSecurityDefinition(DummyAuthenticationHandler.AuthenticationScheme,
+                new()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = DummyAuthenticationHandler.AuthenticationScheme,
+                    In = ParameterLocation.Header
+                });
+            options.AddSecurityRequirement(new()
+            {
+                {
+                    new()
+                    {
+                        Reference = new()
+                        {
+                            Id = DummyAuthenticationHandler.AuthenticationScheme,
+                            Type = ReferenceType.SecurityScheme
+                        }
+                    },
+                    Array.Empty<string>()
                 }
             });
         }

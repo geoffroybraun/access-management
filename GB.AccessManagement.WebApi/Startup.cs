@@ -14,7 +14,9 @@ public sealed class Startup
 
     public void Configure(WebApplication app)
     {
-        app
+        _ = app
+            .UseAuthentication()
+            .UseAuthorization()
             .MapSwagger()
             .MapEndpointDescriptors(TargetAssembly);
     }
