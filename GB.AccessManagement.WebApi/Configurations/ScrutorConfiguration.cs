@@ -29,6 +29,9 @@ public sealed class ScrutorConfiguration : IWebApiConfiguration
         _ = selector
             .AddClasses(classes => classes.AssignableTo<ITransientService>())
             .AsImplementedInterfaces()
+            .WithTransientLifetime()
+            .AddClasses(classes => classes.AssignableTo<ISelfTransientService>())
+            .AsSelf()
             .WithTransientLifetime();
     }
 

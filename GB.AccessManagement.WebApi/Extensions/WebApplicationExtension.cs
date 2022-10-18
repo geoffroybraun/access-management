@@ -1,3 +1,4 @@
+using GB.AccessManagement.Accesses.Infrastructure.Middlewares;
 using Hellang.Middleware.ProblemDetails;
 
 namespace GB.AccessManagement.WebApi.Extensions;
@@ -7,6 +8,13 @@ public static partial class WebApplicationExtension
     public static WebApplication UseProblemDetails(this WebApplication app)
     {
         _ = ((IApplicationBuilder)app).UseProblemDetails();
+
+        return app;
+    }
+
+    public static WebApplication UseOpenFga(this WebApplication app)
+    {
+        _ = app.UseMiddleware<OpenFgaMiddleware>();
 
         return app;
     }

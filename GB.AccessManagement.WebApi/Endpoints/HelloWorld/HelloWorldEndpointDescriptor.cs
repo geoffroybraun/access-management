@@ -18,7 +18,6 @@ public sealed class HelloWorldEndpointDescriptor : IEndpointDescriptor
                     return await endpoint.Handle(request);
                 })
             .RequireAuthorization(UserAccessAuthorizationPolicyBuilder.Build("sample", "hello-world", "access"))
-            // .RequireAuthorization()
             .WithName("HelloWorld")
             .WithTags("Hello world")
             .WithApiVersionSet(apiVersions)

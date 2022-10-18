@@ -1,6 +1,6 @@
 using System.Reflection;
+using GB.AccessManagement.Accesses.Infrastructure.Middlewares;
 using GB.AccessManagement.WebApi.Extensions;
-using Hellang.Middleware.ProblemDetails;
 
 namespace GB.AccessManagement.WebApi;
 
@@ -17,6 +17,7 @@ public sealed class Startup
     {
         _ = app
             .UseProblemDetails()
+            .UseOpenFga()
             .UseAuthentication()
             .UseAuthorization()
             .MapSwagger()

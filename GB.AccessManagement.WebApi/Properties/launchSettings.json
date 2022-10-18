@@ -6,7 +6,9 @@
       "launchBrowser": false,
       "applicationUrl": "https://localhost:8001;http://localhost:8000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "OpenFga:BaseAddress": "http://localhost:8080",
+        "OpenFga:StoreName": "access-management"
       }
     }
   }
