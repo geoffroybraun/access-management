@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.WebApi.Configurations.Constants;
+using GB.AccessManagement.WebApi.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.HelloWorld;
@@ -17,10 +17,11 @@ public sealed class HelloWorldEndpointDescriptor : IEndpointDescriptor
 
                     return await endpoint.Handle(request);
                 })
-            .RequireAuthorization()
+            .RequireAuthorization(UserAccessAuthorizationPolicyBuilder.Build("sample", "hello-world", "access"))
+            // .RequireAuthorization()
             .WithName("HelloWorld")
             .WithTags("Hello world")
             .WithApiVersionSet(apiVersions)
-            .MapToApiVersion(ApiVersions.Version1_0);
+            .MapToApiVersion(new(1, 0));
     }
 }

@@ -1,6 +1,4 @@
 using System.Reflection;
-using Asp.Versioning.Builder;
-using GB.AccessManagement.WebApi.Configurations.Constants;
 using GB.AccessManagement.WebApi.Endpoints;
 
 namespace GB.AccessManagement.WebApi.Extensions;
@@ -11,7 +9,7 @@ public static partial class WebApplicationExtension
     {
         var apiVersions = app
             .NewApiVersionSet()
-            .HasApiVersion(ApiVersions.Version1_0)
+            .HasApiVersion(new(1, 0))
             .Build();
         
         assemblies

@@ -1,4 +1,4 @@
-using GB.AccessManagement.WebApi.Services;
+using GB.AccessManagement.Core.Services;
 
 namespace GB.AccessManagement.WebApi.Endpoints;
 
