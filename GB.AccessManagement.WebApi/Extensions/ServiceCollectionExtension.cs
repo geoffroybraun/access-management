@@ -1,32 +1,50 @@
-using System.Reflection;
 using GB.AccessManagement.WebApi.Configurations;
+using GB.AccessManagement.WebApi.Configurations.ServicesConfigurations;
 
 namespace GB.AccessManagement.WebApi.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static void Configure(this IServiceCollection services, params Assembly[] assemblies)
+    public static IServiceCollection ConfigureAuthentication(this IServiceCollection services)
     {
-        assemblies
-            .SelectMany(FilterWebApiConfigurations)
-            .ToList()
-            .ForEach(configuration => configuration.Configure(services));
+        return services.ConfigureServices<AuthenticationConfiguration>();
     }
-
-    private static IWebApiConfiguration[] FilterWebApiConfigurations(Assembly assembly)
+    
+    public static IServiceCollection ConfigureAuthorization(this IServiceCollection services)
     {
-        return assembly
-            .DefinedTypes
-            .Where(IsTypeWebApiConfiguration)
-            .Select(Activator.CreateInstance)
-            .Cast<IWebApiConfiguration>()
-            .ToArray();
+        return services.ConfigureServices<AuthorizationConfiguration>();
     }
-
-    private static bool IsTypeWebApiConfiguration(Type type)
+    
+    public static IServiceCollection ConfigureHttpClients(this IServiceCollection services)
     {
-        return !type.IsInterface
-               && !type.IsAbstract
-               && type.IsAssignableTo(typeof(IWebApiConfiguration));
+        return services.ConfigureServices<HttpClientConfiguration>();
+    }
+    
+    public static IServiceCollection ConfigureProblemDetails(this IServiceCollection services)
+    {
+        return services.ConfigureServices<ProblemDetailsConfiguration>();
+    }
+    
+    public static IServiceCollection ConfigureScrutor(this IServiceCollection services)
+    {
+        return services.ConfigureServices<ScrutorConfiguration>();
+    }
+    
+    public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
+    {
+        return services.ConfigureServices<SwaggerConfiguration>();
+    }
+    
+    public static IServiceCollection ConfigureVersioning(this IServiceCollection services)
+    {
+        return services.ConfigureServices<VersioningConfiguration>();
+    }
+    
+    private static IServiceCollection ConfigureServices<TConfiguration>(this IServiceCollection services)
+        where TConfiguration : IServicesConfiguration, new()
+    {
+        new TConfiguration().ConfigureServices(services);
+
+        return services;
     }
 }

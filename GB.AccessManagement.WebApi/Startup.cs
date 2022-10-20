@@ -1,26 +1,35 @@
 using System.Reflection;
-using GB.AccessManagement.Accesses.Infrastructure.Middlewares;
 using GB.AccessManagement.WebApi.Extensions;
 
 namespace GB.AccessManagement.WebApi;
 
 public sealed class Startup
 {
-    private static readonly Assembly TargetAssembly = typeof(Startup).Assembly;
+    private static readonly Assembly[] Assemblies =
+    {
+        typeof(Startup).Assembly
+    };
     
     public void ConfigureServices(IServiceCollection services)
     {
-        services.Configure(TargetAssembly);
+        _ = services
+            .ConfigureAuthentication()
+            .ConfigureAuthorization()
+            .ConfigureHttpClients()
+            .ConfigureProblemDetails()
+            .ConfigureScrutor()
+            .ConfigureSwagger()
+            .ConfigureVersioning();
     }
 
     public void Configure(WebApplication app)
     {
         _ = app
             .UseProblemDetails()
-            .UseOpenFga()
+            .UseAccesses()
             .UseAuthentication()
             .UseAuthorization()
-            .MapSwagger()
-            .MapEndpointDescriptors(TargetAssembly);
+            .UseSwagger()
+            .UseEndpoints(Assemblies);
     }
 }

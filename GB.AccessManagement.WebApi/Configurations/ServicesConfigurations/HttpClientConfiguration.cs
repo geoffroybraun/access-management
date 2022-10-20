@@ -4,13 +4,14 @@ using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
 
-namespace GB.AccessManagement.WebApi.Configurations;
+namespace GB.AccessManagement.WebApi.Configurations.ServicesConfigurations;
 
-public sealed class HttpClientConfiguration : IWebApiConfiguration
+public sealed class HttpClientConfiguration : IServicesConfiguration
 {
-    public void Configure(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
-        _ = services.AddOptions<OpenFgaOptions>()
+        _ = services
+            .AddOptions<OpenFgaOptions>()
             .BindConfiguration("OpenFga")
             .ValidateDataAnnotations()
             .Services

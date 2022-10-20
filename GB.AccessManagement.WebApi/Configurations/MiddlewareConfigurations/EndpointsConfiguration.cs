@@ -1,11 +1,18 @@
 using System.Reflection;
 using GB.AccessManagement.WebApi.Endpoints;
 
-namespace GB.AccessManagement.WebApi.Extensions;
+namespace GB.AccessManagement.WebApi.Configurations.MiddlewareConfigurations;
 
-public static partial class WebApplicationExtension
+public sealed class EndpointsConfiguration : IMiddlewareConfiguration
 {
-    public static WebApplication MapEndpointDescriptors(this WebApplication app, params Assembly[] assemblies)
+    private readonly Assembly[] assemblies;
+
+    public EndpointsConfiguration(Assembly[] assemblies)
+    {
+        this.assemblies = assemblies;
+    }
+
+    public void Use(WebApplication app)
     {
         var apiVersions = app
             .NewApiVersionSet()
@@ -17,8 +24,6 @@ public static partial class WebApplicationExtension
             .Distinct()
             .ToList()
             .ForEach(descriptor => descriptor.Describe(app, apiVersions));
-
-        return app;
     }
 
     private static IEndpointDescriptor[] FilterEndpointDesciptors(Assembly assembly)

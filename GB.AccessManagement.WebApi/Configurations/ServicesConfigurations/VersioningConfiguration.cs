@@ -1,8 +1,8 @@
-namespace GB.AccessManagement.WebApi.Configurations;
+namespace GB.AccessManagement.WebApi.Configurations.ServicesConfigurations;
 
-public sealed class VersioningConfiguration : IWebApiConfiguration
+public sealed class VersioningConfiguration : IServicesConfiguration
 {
-    public void Configure(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
         services
             .AddEndpointsApiExplorer()

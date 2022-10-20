@@ -1,10 +1,10 @@
 using Hellang.Middleware.ProblemDetails;
 
-namespace GB.AccessManagement.WebApi.Configurations;
+namespace GB.AccessManagement.WebApi.Configurations.ServicesConfigurations;
 
-public sealed class ProblemDetailsConfiguration : IWebApiConfiguration
+public sealed class ProblemDetailsConfiguration : IServicesConfiguration
 {
-    public void Configure(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
         _ = services.AddProblemDetails(options =>
         {

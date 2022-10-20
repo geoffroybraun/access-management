@@ -14,10 +14,13 @@ public sealed record OpenFgaOptions
     public string StoreName { get; init; } = string.Empty;
     
     internal string? StoreId { get; set; }
-    
-    internal string? AuthorizationModelId { get; set; }
 
     internal string Host => this.BaseUri.Authority;
 
     internal string Scheme => this.BaseUri.Scheme;
+
+    public bool IsValid()
+    {
+        return !string.IsNullOrEmpty(this.StoreId);
+    }
 }
