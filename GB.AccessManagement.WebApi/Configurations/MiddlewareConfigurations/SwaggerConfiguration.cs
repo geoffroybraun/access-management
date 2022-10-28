@@ -1,8 +1,8 @@
-namespace GB.AccessManagement.WebApi.Extensions;
+namespace GB.AccessManagement.WebApi.Configurations.MiddlewareConfigurations;
 
-public static partial class WebApplicationExtension
+public sealed class SwaggerConfiguration : IMiddlewareConfiguration
 {
-    public static WebApplication MapSwagger(this WebApplication app)
+    public void Use(WebApplication app)
     {
         _ = app
             .UseSwagger()
@@ -19,7 +19,5 @@ public static partial class WebApplicationExtension
                         options.SwaggerEndpoint(url, name);
                     });
             });
-
-        return app;
     }
 }

@@ -10,13 +10,15 @@
       <PackageReference Include="Asp.Versioning.Http" Version="6.1.0" />
       <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="6.1.0" />
       <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
       <PackageReference Include="Scrutor" Version="4.2.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj" />
-      <ProjectReference Include="..\GB.AccessManagement.Accesses.Infrastructure\GB.AccessManagement.Accesses.Infrastructure.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Application\GB.AccessManagement.Accesses.Application.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Infrastructure\GB.AccessManagement.Accesses.Infrastructure.csproj" />
       <ProjectReference Include="..\GB.AccessManagement.Core\GB.AccessManagement.Core.csproj" />
     </ItemGroup>
 

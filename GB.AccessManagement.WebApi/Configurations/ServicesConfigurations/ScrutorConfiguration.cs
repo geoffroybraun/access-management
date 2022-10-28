@@ -3,9 +3,9 @@ using GB.AccessManagement.Accesses.Infrastructure.Properties;
 using GB.AccessManagement.Core.Services;
 using Scrutor;
 
-namespace GB.AccessManagement.WebApi.Configurations;
+namespace GB.AccessManagement.WebApi.Configurations.ServicesConfigurations;
 
-public sealed class ScrutorConfiguration : IWebApiConfiguration
+public sealed class ScrutorConfiguration : IServicesConfiguration
 {
     private static readonly Assembly[] Assemblies =
     {
@@ -13,7 +13,7 @@ public sealed class ScrutorConfiguration : IWebApiConfiguration
         typeof(Startup).Assembly
     };
     
-    public void Configure(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
         _ = services.Scan(selector =>
         {
@@ -29,6 +29,9 @@ public sealed class ScrutorConfiguration : IWebApiConfiguration
         _ = selector
             .AddClasses(classes => classes.AssignableTo<ITransientService>())
             .AsImplementedInterfaces()
+            .WithTransientLifetime()
+            .AddClasses(classes => classes.AssignableTo<ISelfTransientService>())
+            .AsSelf()
             .WithTransientLifetime();
     }
 

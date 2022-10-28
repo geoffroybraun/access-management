@@ -1,13 +1,13 @@
 version: '3.8'
 
 networks:
-  access:
+  access-management:
 
 services:
   postgres:
     image: postgres:14
     networks:
-      - access
+      - access-management
     environment:
       - POSTGRES_USER=web-api
       - POSTGRES_PASSWORD=cTZGoXV2YKJXbvqqJVpU2q4CHQfPsvAC
@@ -29,7 +29,7 @@ services:
       - OPENFGA_DATASTORE_ENGINE=postgres
       - OPENFGA_DATASTORE_URI=postgres://web-api:cTZGoXV2YKJXbvqqJVpU2q4CHQfPsvAC@postgres:5432/access-db
     networks:
-      - access
+      - access-management
 
   web-api:
     image: openfga/openfga
@@ -44,7 +44,7 @@ services:
       migrations:
         condition: service_completed_successfully
     networks:
-      - access
+      - access-management
     ports:
       - "8080:8080"
       - "3000:3000"

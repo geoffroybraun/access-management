@@ -36,9 +36,9 @@ public sealed class UserAccessAuthorizationPolicyProvider : IAuthorizationPolicy
     private static UserAccessAuthorizationRequirement BuildRequirement(string policyName)
     {
         string[] policyValues = policyName.Split(':');
-        string objectType = policyValues[0];
-        string objectId = policyValues[1];
-        string relation = policyValues[2];
+        string objectType = policyValues[1];
+        string objectId = policyValues[2];
+        string relation = policyValues[3];
 
         return new(objectType, objectId, relation);
     }
