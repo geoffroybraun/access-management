@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace GB.AccessManagement.WebApi.Configurations;
+namespace GB.AccessManagement.WebApi.Configurations.ServicesConfigurations.Swagger;
 
 public sealed class SwaggerGenOptionsConfiguration : IConfigureOptions<SwaggerGenOptions>, ITransientService
 {
@@ -57,6 +57,7 @@ public sealed class SwaggerGenOptionsConfiguration : IConfigureOptions<SwaggerGe
                     Array.Empty<string>()
                 }
             });
+            options.DocumentFilter<AdditionalPropertiesDocumentFilter>();
         }
     }
 }

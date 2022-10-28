@@ -11,6 +11,7 @@ public sealed class HttpClientConfiguration : IServicesConfiguration
     public void ConfigureServices(IServiceCollection services)
     {
         _ = services
+            .AddHttpContextAccessor()
             .AddOptions<OpenFgaOptions>()
             .BindConfiguration("OpenFga")
             .ValidateDataAnnotations()

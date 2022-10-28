@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>GB.AccessManagement.Accesses.Application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\GB.AccessManagement.Core\GB.AccessManagement.Core.csproj" />
+      <ProjectReference Include="..\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

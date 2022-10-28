@@ -1,4 +1,4 @@
-namespace GB.AccessManagement.WebApi.Configurations.ServicesConfigurations;
+namespace GB.AccessManagement.WebApi.Configurations.ServicesConfigurations.Swagger;
 
 public sealed class SwaggerConfiguration : IServicesConfiguration
 {

@@ -7,16 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj" />
-      <ProjectReference Include="..\GB.AccessManagement.Core\GB.AccessManagement.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
       <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.10" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
       <PackageReference Include="OpenFga.Sdk" Version="0.1.1" />
       <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\GB.AccessManagement.Core\GB.AccessManagement.Core.csproj" />
+      <ProjectReference Include="..\GB.AccessManagement.Accesses.Application\GB.AccessManagement.Accesses.Application.csproj" />
+      <ProjectReference Include="..\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj" />
     </ItemGroup>
 
 </Project>

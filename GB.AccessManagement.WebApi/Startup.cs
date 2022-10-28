@@ -16,6 +16,7 @@ public sealed class Startup
             .ConfigureAuthentication()
             .ConfigureAuthorization()
             .ConfigureHttpClients()
+            .ConfigureMediatR()
             .ConfigureProblemDetails()
             .ConfigureScrutor()
             .ConfigureSwagger()

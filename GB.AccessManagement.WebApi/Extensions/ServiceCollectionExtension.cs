@@ -1,5 +1,6 @@
 using GB.AccessManagement.WebApi.Configurations;
 using GB.AccessManagement.WebApi.Configurations.ServicesConfigurations;
+using GB.AccessManagement.WebApi.Configurations.ServicesConfigurations.Swagger;
 
 namespace GB.AccessManagement.WebApi.Extensions;
 
@@ -18,6 +19,11 @@ public static class ServiceCollectionExtension
     public static IServiceCollection ConfigureHttpClients(this IServiceCollection services)
     {
         return services.ConfigureServices<HttpClientConfiguration>();
+    }
+
+    public static IServiceCollection ConfigureMediatR(this IServiceCollection services)
+    {
+        return services.ConfigureServices<MediatRConfiguration>();
     }
     
     public static IServiceCollection ConfigureProblemDetails(this IServiceCollection services)

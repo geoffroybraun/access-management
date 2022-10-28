@@ -27,7 +27,8 @@ public sealed class OpenFgaUserAccessEvaluator : IUserAccessEvaluator, ISingleto
             ApiScheme = this.options.Scheme,
             StoreId = this.options.StoreId
         };
-        using OpenFgaApi api = new(configuration, this.factory.CreateClient("default"));
+        using var client = this.factory.CreateClient();
+        using OpenFgaApi api = new(configuration, client);
         var response = await api.Check(new CheckRequest
         {
             TupleKey = new()
