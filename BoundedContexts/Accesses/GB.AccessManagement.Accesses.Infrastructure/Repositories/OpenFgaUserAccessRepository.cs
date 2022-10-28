@@ -21,19 +21,12 @@ public sealed class OpenFgaUserAccessRepository : IUserAccessRepository, IScoped
 
     public async Task Create(UserAccess access)
     {
-        var configuration = new Configuration()
-        {
-            ApiHost = options.Host,
-            ApiScheme = options.Scheme,
-            StoreId = options.StoreId
-        };
-        using var client = this.factory.CreateClient("default");
-        using var api = new OpenFgaApi(configuration, client);
+        using var api = this.CreateApi();
         _ = await api.Write(new WriteRequest
         {
-            Writes = new TupleKeys(new List<TupleKey>()
+            Writes = new TupleKeys(new List<TupleKey>
             {
-                new TupleKey
+                new()
                 {
                     Object = $"{access.ObjectType}:{access.ObjectId}",
                     Relation = access.Relation,
@@ -41,5 +34,34 @@ public sealed class OpenFgaUserAccessRepository : IUserAccessRepository, IScoped
                 }
             })
         });
+    }
+
+    public async Task Delete(UserAccess access)
+    {
+        using var api = this.CreateApi();
+        _ = await api.Write(new WriteRequest
+        {
+            Deletes = new TupleKeys(new List<TupleKey>
+            {
+                new()
+                {
+                    Object = $"{access.ObjectType}:{access.ObjectId}",
+                    Relation = access.Relation,
+                    User = access.UserId
+                }
+            })
+        });
+    }
+
+    private OpenFgaApi CreateApi()
+    {
+        var configuration = new Configuration()
+        {
+            ApiHost = options.Host,
+            ApiScheme = options.Scheme,
+            StoreId = options.StoreId
+        };
+        
+        return new OpenFgaApi(configuration, this.factory.CreateClient("default"));
     }
 }
