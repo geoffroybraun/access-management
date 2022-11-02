@@ -1,35 +1,33 @@
 using Asp.Versioning.Builder;
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
-using GB.AccessManagement.Accesses.Queries.GetUserAccess;
+using GB.AccessManagement.Accesses.Queries.ListUserAccesses;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GB.AccessManagement.WebApi.Endpoints.Accesses.GetUserAccess;
+namespace GB.AccessManagement.WebApi.Endpoints.Accesses.ListUserAccesses;
 
-public sealed class GetUserAccessEndpointDescriptor : IEndpointDescriptor
+public sealed class ListUserAccessesEndpointDescriptor : IEndpointDescriptor
 {
-    private const string Endpoint = "/v{version:apiVersion}/users/{id}/accesses/{object-type}/{object-id}";
+    private const string Endpoint = "/v{version:apiVersion}/users/{id}/accesses/{object-type}";
     
     public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
     {
         builder.MapGet(Endpoint, async (
             [FromRoute(Name = "id")] string userId,
             [FromRoute(Name = "object-type")] string objectType,
-            [FromRoute(Name = "object-id")] string objectId,
-            [FromServices] IEndpoint<GetUserAccessQuery> endpoint) =>
+            [FromServices] IEndpoint<ListUserAccessesQuery> endpoint) =>
             {
-                GetUserAccessQuery query = new(userId, objectType, objectId);
+                ListUserAccessesQuery query = new(userId, objectType);
 
                 return await endpoint.Handle(query);
             })
             .RequireAuthorization()
-            .Produces<UserAccess>()
+            .Produces<UserAccess[]>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)
-            .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .WithName("GetUserAccess")
+            .WithName("ListUserAccesses")
             .WithTags("Accesses")
             .WithApiVersionSet(apiVersions)
             .MapToApiVersion(new(1, 0));
