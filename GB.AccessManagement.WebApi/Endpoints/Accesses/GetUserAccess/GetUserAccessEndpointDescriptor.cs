@@ -1,0 +1,37 @@
+using Asp.Versioning.Builder;
+using GB.AccessManagement.Accesses.Domain.ValueTypes;
+using GB.AccessManagement.Accesses.Queries.GetUserAccess;
+using Microsoft.AspNetCore.Mvc;
+
+namespace GB.AccessManagement.WebApi.Endpoints.Accesses.GetUserAccess;
+
+public sealed class GetUserAccessEndpointDescriptor : IEndpointDescriptor
+{
+    private const string Endpoint = "/v{version:apiVersion}/users/{id}/{objectType}/{objectId}";
+    
+    public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
+    {
+        builder.MapGet(Endpoint, async (
+            [FromRoute(Name = "id")] string userId,
+            [FromRoute(Name = "objectType")] string objectType,
+            [FromRoute(Name = "objectId")] string objectId,
+            [FromServices] IEndpoint<GetUserAccessQuery> endpoint) =>
+            {
+                GetUserAccessQuery query = new(userId, objectType, objectId);
+
+                return await endpoint.Handle(query);
+            })
+            .RequireAuthorization()
+            .Produces<UserAccess>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithName("GetUserAccess")
+            .WithTags("Accesses")
+            .WithApiVersionSet(apiVersions)
+            .MapToApiVersion(new(1, 0));
+    }
+}

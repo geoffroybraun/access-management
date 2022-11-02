@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Application.CreateUserAccess;
+using GB.AccessManagement.Accesses.Commands.CreateUserAccess;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.CreateUserAccess;

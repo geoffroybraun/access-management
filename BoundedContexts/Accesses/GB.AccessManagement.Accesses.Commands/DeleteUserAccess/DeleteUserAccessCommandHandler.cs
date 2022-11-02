@@ -1,6 +1,6 @@
 using GB.AccessManagement.Core.Commands;
 
-namespace GB.AccessManagement.Accesses.Application.DeleteUserAccess;
+namespace GB.AccessManagement.Accesses.Commands.DeleteUserAccess;
 
 public sealed class DeleteUserAccessCommandHandler : CommandHandler<DeleteUserAccessCommand>
 {

@@ -1,7 +1,7 @@
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
 using GB.AccessManagement.Core.Commands;
 
-namespace GB.AccessManagement.Accesses.Application.DeleteUserAccess;
+namespace GB.AccessManagement.Accesses.Commands.DeleteUserAccess;
 
 public sealed record DeleteUserAccessCommand(string UserId, string ObjectType, string ObjectId, string Relation) : ICommand
 {

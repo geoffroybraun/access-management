@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Application.DeleteUserAccess;
+using GB.AccessManagement.Accesses.Commands.DeleteUserAccess;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.DeleteUserAccess;
@@ -29,7 +29,7 @@ public sealed class DeleteUserAccessEndpointDescriptor : IEndpointDescriptor
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .WithName("GetUserAccess")
+            .WithName("DeleteUserAccess")
             .WithTags("Accesses")
             .WithApiVersionSet(apiVersions)
             .MapToApiVersion(new(1, 0));
