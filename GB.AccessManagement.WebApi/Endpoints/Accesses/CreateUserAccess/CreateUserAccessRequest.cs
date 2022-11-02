@@ -1,4 +1,4 @@
-using GB.AccessManagement.Accesses.Application.CreateUserAccess;
+using GB.AccessManagement.Accesses.Commands.CreateUserAccess;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.CreateUserAccess;
 

@@ -1,4 +1,4 @@
-using GB.AccessManagement.Accesses.Application.CreateUserAccess;
+using GB.AccessManagement.Accesses.Commands.CreateUserAccess;
 using MediatR;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.CreateUserAccess;

@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>GB.AccessManagement.Accesses.Application</RootNamespace>
+        <RootNamespace>GB.AccessManagement.Accesses.Commands</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -12,7 +12,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Core", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accesses", "Accesses", "{9354E543-12B2-400E-994D-C9E9ABDC1052}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Application", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Application\GB.AccessManagement.Accesses.Application.csproj", "{A446134A-60B3-4F35-A51F-371A068ECA89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Commands", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Commands\GB.AccessManagement.Accesses.Commands.csproj", "{A446134A-60B3-4F35-A51F-371A068ECA89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Queries", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Queries\GB.AccessManagement.Accesses.Queries.csproj", "{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,11 +42,16 @@ Global
 		{A446134A-60B3-4F35-A51F-371A068ECA89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A446134A-60B3-4F35-A51F-371A068ECA89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A446134A-60B3-4F35-A51F-371A068ECA89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9354E543-12B2-400E-994D-C9E9ABDC1052} = {A6D802D7-CBD4-4AF4-9C40-B8EA565E12C8}
 		{0B5980E8-2C3D-4E3C-B0C7-D65A244EBFC8} = {9354E543-12B2-400E-994D-C9E9ABDC1052}
 		{76E8DCD3-6DDC-423E-9F04-B79DD17DD757} = {9354E543-12B2-400E-994D-C9E9ABDC1052}
 		{A446134A-60B3-4F35-A51F-371A068ECA89} = {9354E543-12B2-400E-994D-C9E9ABDC1052}
+		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD} = {9354E543-12B2-400E-994D-C9E9ABDC1052}
 	EndGlobalSection
 EndGlobal

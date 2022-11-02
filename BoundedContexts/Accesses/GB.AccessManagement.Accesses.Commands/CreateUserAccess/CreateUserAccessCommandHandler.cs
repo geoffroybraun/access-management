@@ -1,7 +1,7 @@
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
 using GB.AccessManagement.Core.Commands;
 
-namespace GB.AccessManagement.Accesses.Application.CreateUserAccess;
+namespace GB.AccessManagement.Accesses.Commands.CreateUserAccess;
 
 public sealed class CreateUserAccessCommandHandler : CommandHandler<CreateUserAccessCommand>
 {

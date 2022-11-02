@@ -1,35 +1,35 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Commands.DeleteUserAccess;
+using GB.AccessManagement.Accesses.Domain.ValueTypes;
+using GB.AccessManagement.Accesses.Queries.GetUserAccess;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GB.AccessManagement.WebApi.Endpoints.Accesses.DeleteUserAccess;
+namespace GB.AccessManagement.WebApi.Endpoints.Accesses.GetUserAccess;
 
-public sealed class DeleteUserAccessEndpointDescriptor : IEndpointDescriptor
+public sealed class GetUserAccessEndpointDescriptor : IEndpointDescriptor
 {
-    private const string Endpoint = "/v{version:apiVersion}/users/{id}/accesses/{object-type}/{object-id}/{relation}";
+    private const string Endpoint = "/v{version:apiVersion}/users/{id}/accesses/{object-type}/{object-id}";
     
     public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
     {
-        builder.MapDelete(Endpoint, async (
+        builder.MapGet(Endpoint, async (
             [FromRoute(Name = "id")] string userId,
             [FromRoute(Name = "object-type")] string objectType,
             [FromRoute(Name = "object-id")] string objectId,
-            [FromRoute(Name = "relation")] string relation,
-            [FromServices] IEndpoint<DeleteUserAccessCommand> endpoint) =>
+            [FromServices] IEndpoint<GetUserAccessQuery> endpoint) =>
             {
-                var command = new DeleteUserAccessCommand(userId, objectType, objectId, relation);
+                GetUserAccessQuery query = new(userId, objectType, objectId);
 
-                return await endpoint.Handle(command);
+                return await endpoint.Handle(query);
             })
             .RequireAuthorization()
-            .Produces(StatusCodes.Status204NoContent)
+            .Produces<UserAccess>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .WithName("DeleteUserAccess")
+            .WithName("GetUserAccess")
             .WithTags("Accesses")
             .WithApiVersionSet(apiVersions)
             .MapToApiVersion(new(1, 0));

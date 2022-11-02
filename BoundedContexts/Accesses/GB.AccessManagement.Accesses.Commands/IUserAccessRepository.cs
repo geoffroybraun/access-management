@@ -1,6 +1,6 @@
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
 
-namespace GB.AccessManagement.Accesses.Application;
+namespace GB.AccessManagement.Accesses.Commands;
 
 public interface IUserAccessRepository
 {
