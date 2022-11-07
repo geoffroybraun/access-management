@@ -7,8 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\GB.AccessManagement.Core\GB.AccessManagement.Core.csproj" />
-      <ProjectReference Include="..\GB.AccessManagement.Accesses.Contracts\GB.AccessManagement.Accesses.Contracts.csproj" />
+      <ProjectReference Include="..\GB.AccessManagement.Companies.Commands\GB.AccessManagement.Companies.Commands.csproj" />
     </ItemGroup>
 
 </Project>

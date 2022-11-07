@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.WebApi"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BoundedContexts", "BoundedContexts", "{A6D802D7-CBD4-4AF4-9C40-B8EA565E12C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Domain", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj", "{0B5980E8-2C3D-4E3C-B0C7-D65A244EBFC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Contracts", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Contracts\GB.AccessManagement.Accesses.Contracts.csproj", "{0B5980E8-2C3D-4E3C-B0C7-D65A244EBFC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Infrastructure", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Infrastructure\GB.AccessManagement.Accesses.Infrastructure.csproj", "{76E8DCD3-6DDC-423E-9F04-B79DD17DD757}"
 EndProject
@@ -15,6 +15,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Commands", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Commands\GB.AccessManagement.Accesses.Commands.csproj", "{A446134A-60B3-4F35-A51F-371A068ECA89}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Queries", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Queries\GB.AccessManagement.Accesses.Queries.csproj", "{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Companies", "Companies", "{C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Companies.Domain", "BoundedContexts\Companies\GB.AccessManagement.Companies.Domain\GB.AccessManagement.Companies.Domain.csproj", "{477C1397-EFCE-4456-ACDD-4A858EB59C6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Companies.Contracts", "BoundedContexts\Companies\GB.AccessManagement.Companies.Contracts\GB.AccessManagement.Companies.Contracts.csproj", "{7E2DB08B-48D1-4733-B0A1-2938B8442CC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Companies.Commands", "BoundedContexts\Companies\GB.AccessManagement.Companies.Commands\GB.AccessManagement.Companies.Commands.csproj", "{2B489FCA-207D-4165-BAB5-E5A2072A2A7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Companies.Infrastructure", "BoundedContexts\Companies\GB.AccessManagement.Companies.Infrastructure\GB.AccessManagement.Companies.Infrastructure.csproj", "{DD505B4A-0326-44AD-8A9F-B33139F614C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +56,22 @@ Global
 		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{477C1397-EFCE-4456-ACDD-4A858EB59C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{477C1397-EFCE-4456-ACDD-4A858EB59C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{477C1397-EFCE-4456-ACDD-4A858EB59C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{477C1397-EFCE-4456-ACDD-4A858EB59C6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E2DB08B-48D1-4733-B0A1-2938B8442CC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E2DB08B-48D1-4733-B0A1-2938B8442CC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E2DB08B-48D1-4733-B0A1-2938B8442CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E2DB08B-48D1-4733-B0A1-2938B8442CC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B489FCA-207D-4165-BAB5-E5A2072A2A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B489FCA-207D-4165-BAB5-E5A2072A2A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B489FCA-207D-4165-BAB5-E5A2072A2A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B489FCA-207D-4165-BAB5-E5A2072A2A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD505B4A-0326-44AD-8A9F-B33139F614C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD505B4A-0326-44AD-8A9F-B33139F614C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD505B4A-0326-44AD-8A9F-B33139F614C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD505B4A-0326-44AD-8A9F-B33139F614C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9354E543-12B2-400E-994D-C9E9ABDC1052} = {A6D802D7-CBD4-4AF4-9C40-B8EA565E12C8}
@@ -53,5 +79,10 @@ Global
 		{76E8DCD3-6DDC-423E-9F04-B79DD17DD757} = {9354E543-12B2-400E-994D-C9E9ABDC1052}
 		{A446134A-60B3-4F35-A51F-371A068ECA89} = {9354E543-12B2-400E-994D-C9E9ABDC1052}
 		{D61ED86F-4991-4A6F-A90C-A616C3CE18CD} = {9354E543-12B2-400E-994D-C9E9ABDC1052}
+		{C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC} = {A6D802D7-CBD4-4AF4-9C40-B8EA565E12C8}
+		{477C1397-EFCE-4456-ACDD-4A858EB59C6A} = {C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC}
+		{7E2DB08B-48D1-4733-B0A1-2938B8442CC7} = {C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC}
+		{2B489FCA-207D-4165-BAB5-E5A2072A2A7F} = {C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC}
+		{DD505B4A-0326-44AD-8A9F-B33139F614C9} = {C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC}
 	EndGlobalSection
 EndGlobal

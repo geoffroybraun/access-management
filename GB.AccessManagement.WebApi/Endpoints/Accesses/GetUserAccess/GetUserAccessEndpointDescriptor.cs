@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Domain.ValueTypes;
+using GB.AccessManagement.Accesses.Contracts.ValueTypes;
 using GB.AccessManagement.Accesses.Queries.GetUserAccess;
 using Microsoft.AspNetCore.Mvc;
 

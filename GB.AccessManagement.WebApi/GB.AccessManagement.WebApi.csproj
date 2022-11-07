@@ -17,9 +17,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Commands\GB.AccessManagement.Accesses.Commands.csproj" />
-      <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Contracts\GB.AccessManagement.Accesses.Contracts.csproj" />
       <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Infrastructure\GB.AccessManagement.Accesses.Infrastructure.csproj" />
       <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Queries\GB.AccessManagement.Accesses.Queries.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Companies\GB.AccessManagement.Companies.Commands\GB.AccessManagement.Companies.Commands.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Companies\GB.AccessManagement.Companies.Infrastructure\GB.AccessManagement.Companies.Infrastructure.csproj" />
       <ProjectReference Include="..\GB.AccessManagement.Core\GB.AccessManagement.Core.csproj" />
     </ItemGroup>
 

@@ -14,3 +14,14 @@ public abstract class CommandHandler<TCommand> : IRequestHandler<TCommand>
 
     protected abstract Task Handle(TCommand command);
 }
+
+public abstract class CommandHandler<TCommand, TResponse> : IRequestHandler<TCommand, TResponse>
+    where TCommand : ICommand<TResponse>
+{
+    public async Task<TResponse> Handle(TCommand request, CancellationToken cancellationToken)
+    {
+        return await this.Handle(request);
+    }
+
+    protected abstract Task<TResponse> Handle(TCommand command);
+}
