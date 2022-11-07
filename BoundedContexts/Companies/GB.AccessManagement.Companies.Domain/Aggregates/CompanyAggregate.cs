@@ -2,6 +2,7 @@ using GB.AccessManagement.Companies.Contracts.Events.Companies;
 using GB.AccessManagement.Companies.Contracts.ValueTypes;
 using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Core.Aggregates;
+using GB.AccessManagement.Core.Aggregates.Memos;
 
 namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
@@ -34,6 +35,7 @@ public sealed class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyM
 
     public void Save(ICompanyMemo memo, CompanyCreatedEvent @event)
     {
+        memo.State = EMemoState.Created;
         memo.Id = @event.Id;
         memo.Name = @event.Name;
     }

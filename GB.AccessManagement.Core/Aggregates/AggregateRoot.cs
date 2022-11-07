@@ -1,11 +1,12 @@
 using System.Reflection;
+using GB.AccessManagement.Core.Aggregates.Memos;
 using GB.AccessManagement.Core.Events;
 
 namespace GB.AccessManagement.Core.Aggregates;
 
 public abstract class AggregateRoot<TAggregate, TMemo> : IEventDrivenAggregate, IMemorizableAggregate<TMemo>
     where TAggregate : AggregateRoot<TAggregate, TMemo>
-    where TMemo : notnull
+    where TMemo : IAggregateMemo
 {
     private readonly HashSet<DomainEvent> storedEvents = new();
 
