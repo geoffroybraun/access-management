@@ -44,6 +44,9 @@ public sealed class ScrutorConfiguration : IServicesConfiguration
         _ = selector
             .AddClasses(classes => classes.AssignableTo<IScopedService>())
             .AsImplementedInterfaces()
+            .WithScopedLifetime()
+            .AddClasses(classes => classes.AssignableTo<ISelfScopedService>())
+            .AsSelf()
             .WithScopedLifetime();
     }
 

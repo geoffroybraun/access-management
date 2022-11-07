@@ -15,6 +15,7 @@ public sealed class Startup
         _ = services
             .ConfigureAuthentication()
             .ConfigureAuthorization()
+            .ConfigureDatabase()
             .ConfigureHttpClients()
             .ConfigureMediatR()
             .ConfigureProblemDetails()

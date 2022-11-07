@@ -1,10 +1,11 @@
 using GB.AccessManagement.Companies.Contracts.Events.Companies;
 using GB.AccessManagement.Companies.Contracts.ValueTypes;
+using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Core.Aggregates;
 
 namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
-public sealed class CompanyAggregate : AggregateRoot
+public sealed class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyMemo>
 {
     private readonly CompanyName name;
     private UserId ownerId;
@@ -29,5 +30,11 @@ public sealed class CompanyAggregate : AggregateRoot
     {
         this.ownerId = ownerId;
         this.StoreEvent(new CompanyOwnerDefinedEvent(this.Id, this.ownerId));
+    }
+
+    public void Save(ICompanyMemo memo, CompanyCreatedEvent @event)
+    {
+        memo.Id = @event.Id;
+        memo.Name = @event.Name;
     }
 }
