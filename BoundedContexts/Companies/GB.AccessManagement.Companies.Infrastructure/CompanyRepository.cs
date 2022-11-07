@@ -1,25 +1,21 @@
 using GB.AccessManagement.Companies.Commands;
 using GB.AccessManagement.Companies.Domain.Aggregates;
+using GB.AccessManagement.Core.Events.Publishers;
 using GB.AccessManagement.Core.Services;
-using MediatR;
 
 namespace GB.AccessManagement.Companies.Infrastructure;
 
 public sealed class CompanyRepository : ICompanyRepository, IScopedService
 {
-    private readonly IMediator mediator;
+    private readonly IDomainEventPublisher publisher;
 
-    public CompanyRepository(IMediator mediator)
+    public CompanyRepository(IDomainEventPublisher publisher)
     {
-        this.mediator = mediator;
+        this.publisher = publisher;
     }
 
     public async Task Save(CompanyAggregate aggregate)
     {
-        foreach (var @event in aggregate.UncommittedEvents)
-        {
-            await this.mediator.Publish(@event);
-            @event.Commit();;
-        }
+        await this.publisher.Publish(aggregate.UncommittedEvents);
     }
 }

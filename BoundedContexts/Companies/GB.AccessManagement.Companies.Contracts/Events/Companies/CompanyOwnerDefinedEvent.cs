@@ -3,4 +3,4 @@ using GB.AccessManagement.Core.Events;
 
 namespace GB.AccessManagement.Companies.Contracts.Events.Companies;
 
-public sealed record CompanyCreatedEvent(CompanyId Id, CompanyName Name) : DomainEvent;
+public sealed record CompanyOwnerDefinedEvent(CompanyId CompanyId, UserId OwnerId) : DomainEvent;

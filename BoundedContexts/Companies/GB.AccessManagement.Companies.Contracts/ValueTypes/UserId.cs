@@ -23,4 +23,9 @@ public sealed record UserId
     {
         return userId.value;
     }
+
+    public static implicit operator string(UserId userId)
+    {
+        return userId.value.ToString();
+    }
 }

@@ -7,22 +7,27 @@ namespace GB.AccessManagement.Companies.Domain.Aggregates;
 public sealed class CompanyAggregate : AggregateRoot
 {
     private readonly CompanyName name;
-    private readonly UserId ownerId;
+    private UserId ownerId;
     
     public CompanyId Id { get; }
 
-    private CompanyAggregate(CompanyId id, CompanyName name, UserId ownerId)
+    private CompanyAggregate(CompanyId id, CompanyName name)
     {
         this.Id = id;
         this.name = name;
-        this.ownerId = ownerId;
     }
 
-    public static CompanyAggregate Create(CompanyName name, UserId ownerId)
+    public static CompanyAggregate Create(CompanyName name)
     {
-        var aggregate = new CompanyAggregate(Guid.NewGuid(), name, ownerId);
-        aggregate.StoreEvent(new CompanyCreatedEvent(aggregate.Id, aggregate.name, aggregate.ownerId));
+        var aggregate = new CompanyAggregate(Guid.NewGuid(), name);
+        aggregate.StoreEvent(new CompanyCreatedEvent(aggregate.Id, aggregate.name));
         
         return aggregate;
+    }
+
+    public void DefineOwnerId(UserId ownerId)
+    {
+        this.ownerId = ownerId;
+        this.StoreEvent(new CompanyOwnerDefinedEvent(this.Id, this.ownerId));
     }
 }

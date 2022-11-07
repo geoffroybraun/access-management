@@ -23,4 +23,9 @@ public sealed record CompanyId
     {
         return companyId.value;
     }
+
+    public static implicit operator string(CompanyId companyId)
+    {
+        return companyId.value.ToString();
+    }
 }
