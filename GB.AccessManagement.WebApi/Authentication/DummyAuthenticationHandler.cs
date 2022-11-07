@@ -9,7 +9,7 @@ namespace GB.AccessManagement.WebApi.Authentication;
 
 public sealed class DummyAuthenticationHandler : AuthenticationHandler<DummyAuthenticationOptions>
 {
-    private const string UserId = "A2F7CC44-7646-4D0D-ACFF-156340DB62A5";
+    private const string UserId = "a2f7cc44-7646-4d0d-acff-156340db62a5";
     public const string AuthenticationScheme = "Bearer";
     
     public DummyAuthenticationHandler(

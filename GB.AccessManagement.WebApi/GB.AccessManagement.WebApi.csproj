@@ -11,15 +11,18 @@
       <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="6.1.0" />
       <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10" />
       <PackageReference Include="Scrutor" Version="4.2.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Commands\GB.AccessManagement.Accesses.Commands.csproj" />
-      <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Contracts\GB.AccessManagement.Accesses.Contracts.csproj" />
       <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Infrastructure\GB.AccessManagement.Accesses.Infrastructure.csproj" />
       <ProjectReference Include="..\BoundedContexts\Accesses\GB.AccessManagement.Accesses.Queries\GB.AccessManagement.Accesses.Queries.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Companies\GB.AccessManagement.Companies.Commands\GB.AccessManagement.Companies.Commands.csproj" />
+      <ProjectReference Include="..\BoundedContexts\Companies\GB.AccessManagement.Companies.Infrastructure\GB.AccessManagement.Companies.Infrastructure.csproj" />
       <ProjectReference Include="..\GB.AccessManagement.Core\GB.AccessManagement.Core.csproj" />
     </ItemGroup>
 
