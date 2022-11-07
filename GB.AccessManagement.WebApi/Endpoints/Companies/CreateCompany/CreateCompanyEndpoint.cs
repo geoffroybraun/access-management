@@ -1,7 +1,7 @@
 using GB.AccessManagement.Companies.Commands.CreateCompany;
 using MediatR;
 
-namespace GB.AccessManagement.WebApi.Endpoints.Companies;
+namespace GB.AccessManagement.WebApi.Endpoints.Companies.CreateCompany;
 
 public sealed class CreateCompanyEndpoint : IEndpoint<CreateCompanyCommand>
 {

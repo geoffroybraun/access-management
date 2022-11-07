@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GB.AccessManagement.Companies.Commands\GB.AccessManagement.Companies.Commands.csproj" />
+      <ProjectReference Include="..\GB.AccessManagement.Companies.Queries\GB.AccessManagement.Companies.Queries.csproj" />
     </ItemGroup>
 
     <ItemGroup>

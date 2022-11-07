@@ -1,32 +1,32 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Companies.Commands.CreateCompany;
+using GB.AccessManagement.Companies.Queries;
+using GB.AccessManagement.Companies.Queries.ListUserCompanies;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GB.AccessManagement.WebApi.Endpoints.Companies;
+namespace GB.AccessManagement.WebApi.Endpoints.Companies.UserCompanies;
 
-public sealed class CreateCompanyEndpointDescriptor : IEndpointDescriptor
+public sealed class UserCompaniesEndpointDescriptor : IEndpointDescriptor
 {
     private const string Endpoint = "/v{version:apiVersion}/users/{id}/companies";
     
     public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
     {
-        builder.MapPost(Endpoint, async (
+        builder.MapGet(Endpoint, async (
             [FromRoute(Name = "id")] Guid userId,
-            CreateCompanyRequest request,
-            [FromServices] IEndpoint<CreateCompanyCommand> endpoint) =>
+            [FromServices] IEndpoint<UserCompaniesQuery> endpoint) =>
             {
-                var command = new CreateCompanyCommand(request.Name, userId);
-                
-                return await endpoint.Handle(command);
+                UserCompaniesQuery query = new(userId);
+
+                return await endpoint.Handle(query);
             })
             .RequireAuthorization()
-            .Produces(StatusCodes.Status201Created)
+            .Produces<CompanyPresentation[]>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .WithName("CreateCompany")
+            .WithName("UserCompanies")
             .WithTags("Companies")
             .WithApiVersionSet(apiVersions)
             .MapToApiVersion(new(1, 0));

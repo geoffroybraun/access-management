@@ -1,14 +1,14 @@
-using GB.AccessManagement.Companies.Commands;
 using GB.AccessManagement.Companies.Domain.Aggregates;
 using GB.AccessManagement.Companies.Infrastructure.Contexts;
 using GB.AccessManagement.Companies.Infrastructure.Daos;
+using GB.AccessManagement.Companies.Queries;
 using GB.AccessManagement.Core.Events.Publishers;
 using GB.AccessManagement.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace GB.AccessManagement.Companies.Infrastructure;
 
-public sealed class CompanyRepository : ICompanyRepository, IScopedService
+public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICompanyRepository, IScopedService
 {
     private readonly CompanyDbContext dbContext;
     private readonly IDomainEventPublisher publisher;
@@ -19,7 +19,7 @@ public sealed class CompanyRepository : ICompanyRepository, IScopedService
         this.dbContext = dbContext;
     }
 
-    public async Task Save(CompanyAggregate aggregate)
+    async Task Commands.ICompanyRepository.Save(CompanyAggregate aggregate)
     {
         var dao = await FindAsync(aggregate.Id);
 
@@ -30,6 +30,16 @@ public sealed class CompanyRepository : ICompanyRepository, IScopedService
 
         await this.dbContext.SaveChangesAsync();
         await this.publisher.Publish(aggregate.UncommittedEvents);
+    }
+
+    async Task<CompanyPresentation[]> Queries.ICompanyRepository.List(Guid[] ids)
+    {
+        return await this.dbContext
+            .Companies
+            .AsNoTracking()
+            .Where(company => ids.Contains(company.Id))
+            .Select(company => new CompanyPresentation(company.Id, company.Name))
+            .ToArrayAsync();
     }
 
     private async Task<CompanyDao> FindAsync(Guid companyId)
