@@ -1,10 +1,11 @@
 using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Core.ValueTypes;
 
 namespace GB.AccessManagement.Accesses.Queries;
 
 public interface IUserAccessRepository
 {
-    Task<string?> GetRelation(string userId, string objectType, string objectId);
+    Task<string?> GetRelation(UserId userId, ObjectType objectType, ObjectId objectId);
 
-    Task<UserAccess[]> List(string userId, string objectType);
+    Task<UserAccessPresentation[]> List(UserId userId, ObjectType objectType);
 }

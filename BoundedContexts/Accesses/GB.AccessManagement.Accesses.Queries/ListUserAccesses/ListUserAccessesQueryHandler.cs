@@ -1,9 +1,8 @@
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
 using GB.AccessManagement.Core.Queries;
 
 namespace GB.AccessManagement.Accesses.Queries.ListUserAccesses;
 
-public sealed class ListUserAccessesQueryHandler : QueryHandler<ListUserAccessesQuery, UserAccess[]>
+public sealed class ListUserAccessesQueryHandler : QueryHandler<ListUserAccessesQuery, UserAccessPresentation[]>
 {
     private readonly IUserAccessRepository repository;
 
@@ -12,7 +11,7 @@ public sealed class ListUserAccessesQueryHandler : QueryHandler<ListUserAccesses
         this.repository = repository;
     }
 
-    protected override async Task<UserAccess[]> Handle(ListUserAccessesQuery query)
+    protected override async Task<UserAccessPresentation[]> Handle(ListUserAccessesQuery query)
     {
         return await this.repository.List(query.UserId, query.ObjectType);
     }

@@ -3,7 +3,7 @@ using GB.AccessManagement.Core.Queries;
 
 namespace GB.AccessManagement.Accesses.Queries.GetUserAccess;
 
-public sealed class GetUserAccessQueryHandler : QueryHandler<GetUserAccessQuery, UserAccess?>
+public sealed class GetUserAccessQueryHandler : QueryHandler<GetUserAccessQuery, UserAccessPresentation?>
 {
     private readonly IUserAccessRepository repository;
 
@@ -12,7 +12,7 @@ public sealed class GetUserAccessQueryHandler : QueryHandler<GetUserAccessQuery,
         this.repository = repository;
     }
 
-    protected override async Task<UserAccess?> Handle(GetUserAccessQuery query)
+    protected override async Task<UserAccessPresentation?> Handle(GetUserAccessQuery query)
     {
         string? relation = await this.repository.GetRelation(query.UserId, query.ObjectType, query.ObjectId);
 

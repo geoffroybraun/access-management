@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace GB.AccessManagement.WebApi.Endpoints.Companies;
+namespace GB.AccessManagement.WebApi.Endpoints.Companies.CreateCompany;
 
 public sealed record CreateCompanyRequest
 {

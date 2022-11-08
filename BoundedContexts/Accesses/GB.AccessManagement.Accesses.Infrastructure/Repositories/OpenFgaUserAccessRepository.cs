@@ -1,5 +1,7 @@
 using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Queries;
 using GB.AccessManagement.Core.Services;
+using GB.AccessManagement.Core.ValueTypes;
 using Microsoft.Extensions.Options;
 using OpenFga.Sdk.Api;
 using OpenFga.Sdk.Configuration;
@@ -29,9 +31,9 @@ public sealed class OpenFgaUserAccessRepository : Commands.IUserAccessRepository
             {
                 new()
                 {
-                    Object = $"{access.ObjectType}:{access.ObjectId}",
-                    Relation = access.Relation,
-                    User = access.UserId
+                    Object = access.Object,
+                    Relation = access.Relation.ToString(),
+                    User = access.UserId.ToString()
                 }
             })
         });
@@ -46,15 +48,15 @@ public sealed class OpenFgaUserAccessRepository : Commands.IUserAccessRepository
             {
                 new()
                 {
-                    Object = $"{access.ObjectType}:{access.ObjectId}",
-                    Relation = access.Relation,
-                    User = access.UserId
+                    Object = access.Object,
+                    Relation = access.Relation.ToString(),
+                    User = access.UserId.ToString()
                 }
             })
         });
     }
 
-    async Task<string?> Queries.IUserAccessRepository.GetRelation(string userId, string objectType, string objectId)
+    async Task<string?> Queries.IUserAccessRepository.GetRelation(UserId userId, ObjectType objectType, ObjectId objectId)
     {
         using var api = this.CreateApi();
         var response = await api.Read(new ReadRequest
@@ -62,21 +64,21 @@ public sealed class OpenFgaUserAccessRepository : Commands.IUserAccessRepository
             TupleKey = new()
             {
                 Object = $"{objectType}:{objectId}",
-                User = userId
+                User = userId.ToString()
             }
         });
 
         return response.Tuples?.FirstOrDefault()?.Key?.Relation;
     }
 
-    async Task<UserAccess[]> Queries.IUserAccessRepository.List(string userId, string objectType)
+    async Task<UserAccessPresentation[]> Queries.IUserAccessRepository.List(UserId userId, ObjectType objectType)
     {
         using var api = this.CreateApi();
         var response = await api.Read(new ReadRequest()
         {
             TupleKey = new()
             {
-                User = userId,
+                User = userId.ToString(),
                 Object = $"{objectType}:"
             }
         });
@@ -85,9 +87,9 @@ public sealed class OpenFgaUserAccessRepository : Commands.IUserAccessRepository
             {
                 string[] objectValues = tuple.Key?.Object?.Split(':')!;
 
-                return new UserAccess(tuple.Key!.User!, objectValues.First(), objectValues.Last(), tuple.Key!.Relation!);
+                return new UserAccessPresentation(userId, objectValues.First(), objectValues.Last(), tuple.Key!.Relation!);
             })
-            .ToArray() ?? Array.Empty<UserAccess>();
+            .ToArray() ?? Array.Empty<UserAccessPresentation>();
     }
 
     private OpenFgaApi CreateApi()
