@@ -3,7 +3,7 @@ using GB.AccessManagement.Core.ValueTypes;
 
 namespace GB.AccessManagement.Accesses.Contracts.Providers;
 
-public interface IUserIdProvider
+public interface IRecursiveUserIdProvider
 {
-    Task<UserId[]> List(ObjectType objectType, ObjectId objectId, Relation relation);
+    Task<UserId[]> Expand(ObjectType objectType, ObjectId objectId, Relation relation);
 }

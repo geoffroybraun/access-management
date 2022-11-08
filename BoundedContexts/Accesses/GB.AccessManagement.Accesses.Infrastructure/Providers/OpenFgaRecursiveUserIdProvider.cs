@@ -1,5 +1,6 @@
 using GB.AccessManagement.Accesses.Contracts.Providers;
 using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Infrastructure.Visitors;
 using GB.AccessManagement.Core.Services;
 using GB.AccessManagement.Core.ValueTypes;
 using Microsoft.Extensions.Options;
@@ -9,21 +10,26 @@ using OpenFga.Sdk.Model;
 
 namespace GB.AccessManagement.Accesses.Infrastructure.Providers;
 
-public sealed class OpenFgaUserIdProvider : IUserIdProvider, IScopedService
+public sealed class OpenFgaRecursiveUserIdProvider : IRecursiveUserIdProvider, IScopedService
 {
     private readonly OpenFgaOptions options;
     private readonly IHttpClientFactory factory;
+    private readonly IUserSetTreeVisitor visitor;
 
-    public OpenFgaUserIdProvider(IOptions<OpenFgaOptions> options, IHttpClientFactory factory)
+    public OpenFgaRecursiveUserIdProvider(
+        IOptions<OpenFgaOptions> options,
+        IHttpClientFactory factory,
+        IUserSetTreeVisitor visitor)
     {
         this.factory = factory;
+        this.visitor = visitor;
         this.options = options.Value;
     }
 
-    public async Task<UserId[]> List(ObjectType objectType, ObjectId objectId, Relation relation)
+    public async Task<UserId[]> Expand(ObjectType objectType, ObjectId objectId, Relation relation)
     {
         using var api = this.CreateApi();
-        var response = await api.Read(new ReadRequest
+        var response = await api.Expand(new ExpandRequest
         {
             TupleKey = new()
             {
@@ -32,7 +38,16 @@ public sealed class OpenFgaUserIdProvider : IUserIdProvider, IScopedService
             }
         });
 
-        return response.Tuples?.Select(tuple => (UserId)tuple.Key!.User!).ToArray() ?? Array.Empty<UserId>();
+        return await this.visitor.Visit(response.Tree);
+
+        return response
+                   .Tree?
+                   .Root?
+                   .Union?
+                   ._Nodes?
+                   .SelectMany(node => node.Leaf?.Users?._Users?.Select(user => (UserId)user) ?? Array.Empty<UserId>())
+                   .ToArray()
+               ?? Array.Empty<UserId>();
     }
 
     private OpenFgaApi CreateApi()

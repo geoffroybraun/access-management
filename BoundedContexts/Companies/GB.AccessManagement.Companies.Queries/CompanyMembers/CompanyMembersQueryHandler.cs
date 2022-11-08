@@ -8,9 +8,9 @@ public sealed class CompanyMembersQueryHandler : QueryHandler<CompanyMembersQuer
 {
     private const string ObjectType = "companies";
     private const string Relation = "member";
-    private readonly IUserIdProvider provider;
+    private readonly IRecursiveUserIdProvider provider;
 
-    public CompanyMembersQueryHandler(IUserIdProvider provider)
+    public CompanyMembersQueryHandler(IRecursiveUserIdProvider provider)
     {
         this.provider = provider;
     }
