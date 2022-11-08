@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Queries;
 using GB.AccessManagement.Accesses.Queries.ListUserAccesses;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +21,7 @@ public sealed class ListUserAccessesEndpointDescriptor : IEndpointDescriptor
                 return await endpoint.Handle(query);
             })
             .RequireAuthorization()
-            .Produces<UserAccess[]>()
+            .Produces<UserAccessPresentation[]>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)

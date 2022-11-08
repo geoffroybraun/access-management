@@ -1,3 +1,4 @@
+using GB.AccessManagement.Accesses.Contracts.ValueTypes;
 using GB.AccessManagement.Companies.Domain.Aggregates;
 using GB.AccessManagement.Companies.Infrastructure.Contexts;
 using GB.AccessManagement.Companies.Infrastructure.Daos;
@@ -33,12 +34,16 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
         await this.publisher.Publish(aggregate.UncommittedEvents);
     }
 
-    async Task<CompanyPresentation[]> Queries.ICompanyRepository.List(Guid[] ids)
+    async Task<CompanyPresentation[]> ICompanyRepository.List(ObjectId[] ids)
     {
-        return await this.dbContext
+        Guid[] companyIds = ids
+            .Select(id => Guid.Parse(id.ToString()))
+            .ToArray();
+        
+        return await dbContext
             .Companies
             .AsNoTracking()
-            .Where(company => ids.Contains(company.Id))
+            .Where(company => companyIds.Contains(company.Id))
             .Select(company => new CompanyPresentation(company.Id, company.Name))
             .ToArrayAsync();
     }

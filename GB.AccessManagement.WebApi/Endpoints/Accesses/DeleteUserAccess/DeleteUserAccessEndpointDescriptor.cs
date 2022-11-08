@@ -11,7 +11,7 @@ public sealed class DeleteUserAccessEndpointDescriptor : IEndpointDescriptor
     public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
     {
         builder.MapDelete(Endpoint, async (
-            [FromRoute(Name = "id")] string userId,
+            [FromRoute(Name = "id")] Guid userId,
             [FromRoute(Name = "object-type")] string objectType,
             [FromRoute(Name = "object-id")] string objectId,
             [FromRoute(Name = "relation")] string relation,

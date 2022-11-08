@@ -11,7 +11,7 @@ public sealed class CreateUserAccessEndpointDescriptor : IEndpointDescriptor
     public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
     {
         builder.MapPost(Endpoint, async (
-            [FromRoute(Name = "id")] string userId,
+            [FromRoute(Name = "id")] Guid userId,
             [FromBody] CreateUserAccessRequest request,
             [FromServices] IEndpoint<CreateUserAccessCommand> endpoint) =>
             {

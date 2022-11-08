@@ -3,13 +3,14 @@ using GB.AccessManagement.Companies.Contracts.ValueTypes;
 using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Core.Aggregates;
 using GB.AccessManagement.Core.Aggregates.Memos;
+using GB.AccessManagement.Core.ValueTypes;
 
 namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
 public sealed class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyMemo>
 {
     private readonly CompanyName name;
-    private UserId ownerId;
+    private UserId? ownerId;
     
     public CompanyId Id { get; }
 

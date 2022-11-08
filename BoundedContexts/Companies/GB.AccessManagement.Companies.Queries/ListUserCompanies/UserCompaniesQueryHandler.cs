@@ -23,6 +23,6 @@ public sealed class UserCompaniesQueryHandler : QueryHandler<UserCompaniesQuery,
             return Array.Empty<CompanyPresentation>();
         }
         
-        return await this.repository.List(companyIds.Select(id => Guid.Parse(id)).ToArray());
+        return await this.repository.List(companyIds);
     }
 }

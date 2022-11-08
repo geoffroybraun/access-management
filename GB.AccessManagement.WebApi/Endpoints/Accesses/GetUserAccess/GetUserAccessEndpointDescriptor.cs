@@ -1,5 +1,6 @@
 using Asp.Versioning.Builder;
 using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Queries;
 using GB.AccessManagement.Accesses.Queries.GetUserAccess;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,7 @@ public sealed class GetUserAccessEndpointDescriptor : IEndpointDescriptor
     public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
     {
         builder.MapGet(Endpoint, async (
-            [FromRoute(Name = "id")] string userId,
+            [FromRoute(Name = "id")] Guid userId,
             [FromRoute(Name = "object-type")] string objectType,
             [FromRoute(Name = "object-id")] string objectId,
             [FromServices] IEndpoint<GetUserAccessQuery> endpoint) =>
@@ -22,7 +23,7 @@ public sealed class GetUserAccessEndpointDescriptor : IEndpointDescriptor
                 return await endpoint.Handle(query);
             })
             .RequireAuthorization()
-            .Produces<UserAccess>()
+            .Produces<UserAccessPresentation>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)

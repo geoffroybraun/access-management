@@ -1,4 +1,4 @@
-namespace GB.AccessManagement.Companies.Contracts.ValueTypes;
+namespace GB.AccessManagement.Core.ValueTypes;
 
 public sealed record UserId
 {
@@ -14,9 +14,19 @@ public sealed record UserId
         this.value = value;
     }
 
+    public override string ToString()
+    {
+        return this.value.ToString();
+    }
+
     public static implicit operator UserId(Guid value)
     {
         return new(value);
+    }
+
+    public static implicit operator UserId(string value)
+    {
+        return new(Guid.Parse(value));
     }
 
     public static implicit operator Guid(UserId userId)

@@ -1,4 +1,4 @@
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Queries;
 using GB.AccessManagement.Accesses.Queries.ListUserAccesses;
 using MediatR;
 
@@ -15,7 +15,7 @@ public sealed class ListUserAccessesEndpoint : IEndpoint<ListUserAccessesQuery>
 
     public async Task<IResult> Handle(ListUserAccessesQuery request)
     {
-        UserAccess[] accesses = await this.mediator.Send(request);
+        UserAccessPresentation[] accesses = await this.mediator.Send(request);
 
         return Results.Ok(accesses);
     }
