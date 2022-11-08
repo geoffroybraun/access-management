@@ -1,36 +1,33 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Queries;
-using GB.AccessManagement.Accesses.Queries.GetUserAccess;
+using GB.AccessManagement.Companies.Queries.CompanyMembers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GB.AccessManagement.WebApi.Endpoints.Accesses.GetUserAccess;
+namespace GB.AccessManagement.WebApi.Endpoints.Companies.CompanyMembers;
 
-public sealed class GetUserAccessEndpointDescriptor : IEndpointDescriptor
+public sealed class CompanyMembersEndpointDescriptor : IEndpointDescriptor
 {
-    private const string Endpoint = "/v{version:apiVersion}/users/{id}/accesses/{object-type}/{object-id}";
+    private const string Endpoint = "/v{version:apiVersion}/companies/{id}/members";
     
     public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
     {
         builder.MapGet(Endpoint, async (
-            [FromRoute(Name = "id")] Guid userId,
-            [FromRoute(Name = "object-type")] string objectType,
-            [FromRoute(Name = "object-id")] string objectId,
-            [FromServices] IEndpoint<GetUserAccessQuery> endpoint) =>
+                [FromRoute(Name = "id")] Guid companyId,
+                [FromServices] IEndpoint<CompanyMembersQuery> endpoint) =>
             {
-                GetUserAccessQuery query = new(userId, objectType, objectId);
+                var query = new CompanyMembersQuery(companyId);
 
                 return await endpoint.Handle(query);
             })
             .RequireAuthorization()
-            .Produces<UserAccessPresentation>()
+            .Produces<string[]>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status401Unauthorized)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status422UnprocessableEntity)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .WithName("GetUserAccess")
-            .WithTags("Accesses")
+            .WithName("CompanyMembers")
+            .WithTags("Companies")
             .WithApiVersionSet(apiVersions)
             .MapToApiVersion(new(1, 0));
     }

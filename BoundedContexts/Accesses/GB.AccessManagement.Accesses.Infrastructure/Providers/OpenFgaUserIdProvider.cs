@@ -20,6 +20,28 @@ public sealed class OpenFgaUserIdProvider : IUserIdProvider, IScopedService
         this.options = options.Value;
     }
 
+    public async Task<UserId[]> Expand(ObjectType objectType, ObjectId objectId, Relation relation)
+    {
+        using var api = this.CreateApi();
+        var response = await api.Expand(new ExpandRequest
+        {
+            TupleKey = new()
+            {
+                Object = $"{objectType.ToString()}:{objectId.ToString()}",
+                Relation = relation.ToString()
+            }
+        });
+
+        return response
+            .Tree?
+            .Root?
+            .Union?
+            ._Nodes?
+            .SelectMany(node => node.Leaf?.Users?._Users?.Select(user => (UserId)user) ?? Array.Empty<UserId>())
+            .ToArray()
+            ?? Array.Empty<UserId>();
+    }
+
     public async Task<UserId[]> List(ObjectType objectType, ObjectId objectId, Relation relation)
     {
         using var api = this.CreateApi();

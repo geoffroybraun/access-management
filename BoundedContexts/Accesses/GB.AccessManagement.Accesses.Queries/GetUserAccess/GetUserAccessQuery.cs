@@ -1,4 +1,3 @@
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
 using GB.AccessManagement.Core.Queries;
 
 namespace GB.AccessManagement.Accesses.Queries.GetUserAccess;
