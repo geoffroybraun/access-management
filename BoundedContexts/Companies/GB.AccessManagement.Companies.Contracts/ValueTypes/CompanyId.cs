@@ -14,6 +14,11 @@ public sealed record CompanyId
         this.value = value;
     }
 
+    public override string ToString()
+    {
+        return this.value.ToString();
+    }
+
     public static implicit operator CompanyId(Guid value)
     {
         return new(value);
