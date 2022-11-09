@@ -1,24 +1,32 @@
+using GB.AccessManagement.Accesses.Contracts.Providers;
 using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Companies.Contracts.ValueTypes;
 using GB.AccessManagement.Companies.Domain.Aggregates;
+using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Companies.Infrastructure.Contexts;
 using GB.AccessManagement.Companies.Infrastructure.Daos;
 using GB.AccessManagement.Companies.Queries;
 using GB.AccessManagement.Core.Aggregates.Memos;
 using GB.AccessManagement.Core.Events.Publishers;
 using GB.AccessManagement.Core.Services;
+using GB.AccessManagement.Core.ValueTypes;
 using Microsoft.EntityFrameworkCore;
 
 namespace GB.AccessManagement.Companies.Infrastructure;
 
 public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICompanyRepository, IScopedService
 {
+    private const string ObjectType = "companies";
+    private const string Relation = "member";
     private readonly CompanyDbContext dbContext;
+    private readonly IUserIdProvider provider;
     private readonly IDomainEventPublisher publisher;
 
-    public CompanyRepository(CompanyDbContext dbContext, IDomainEventPublisher publisher)
+    public CompanyRepository(CompanyDbContext dbContext, IUserIdProvider provider, IDomainEventPublisher publisher)
     {
-        this.publisher = publisher;
         this.dbContext = dbContext;
+        this.provider = provider;
+        this.publisher = publisher;
     }
 
     async Task Commands.ICompanyRepository.Save(CompanyAggregate aggregate)
@@ -32,6 +40,18 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
 
         await this.Save(dao);
         await this.publisher.Publish(aggregate.UncommittedEvents);
+    }
+
+    async Task<CompanyAggregate> Commands.ICompanyRepository.Load(CompanyId companyId)
+    {
+        var dao = await FindAsync(companyId);
+        var members = await this.provider.List(ObjectType, companyId.ToString(), Relation);
+        (dao as ICompanyMemo).Members = new List<UserId>(members);
+        
+        var aggregate = new CompanyAggregate();
+        aggregate.Load(dao);
+
+        return aggregate;
     }
 
     async Task<CompanyPresentation[]> ICompanyRepository.List(ObjectId[] ids)

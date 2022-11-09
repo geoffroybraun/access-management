@@ -4,8 +4,8 @@ using GB.AccessManagement.Core.Events;
 
 namespace GB.AccessManagement.Core.Aggregates;
 
-public abstract class AggregateRoot<TAggregate, TMemo> : IEventDrivenAggregate, IMemorizableAggregate<TMemo>
-    where TAggregate : AggregateRoot<TAggregate, TMemo>
+public abstract class AggregateRoot<TAggregate, TMemo> : IEventDrivenAggregate, IMemorizableAggregate<TAggregate, TMemo>
+    where TAggregate : AggregateRoot<TAggregate, TMemo>, new()
     where TMemo : IAggregateMemo
 {
     private readonly HashSet<DomainEvent> storedEvents = new();
@@ -33,6 +33,8 @@ public abstract class AggregateRoot<TAggregate, TMemo> : IEventDrivenAggregate, 
             throw;
         }
     }
+
+    public abstract TAggregate Load(TMemo memo);
 
     private static bool IsSaveMemoMethod(MethodInfo method, Type memoType, Type eventType)
     {

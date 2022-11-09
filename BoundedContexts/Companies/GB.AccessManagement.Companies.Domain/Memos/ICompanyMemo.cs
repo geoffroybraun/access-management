@@ -1,10 +1,14 @@
+using GB.AccessManagement.Companies.Contracts.ValueTypes;
 using GB.AccessManagement.Core.Aggregates.Memos;
+using GB.AccessManagement.Core.ValueTypes;
 
 namespace GB.AccessManagement.Companies.Domain.Memos;
 
 public interface ICompanyMemo : IAggregateMemo
 {
-    Guid Id { get; set; }
+    CompanyId Id { get; set; }
     
-    string Name { get; set; }
+    CompanyName Name { get; set; }
+    
+    ICollection<UserId> Members { get; set; }
 }
