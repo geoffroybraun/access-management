@@ -2,12 +2,11 @@ using GB.AccessManagement.Companies.Contracts.Events.Companies;
 using GB.AccessManagement.Companies.Contracts.ValueTypes;
 using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Core.Aggregates;
-using GB.AccessManagement.Core.Aggregates.Memos;
 using GB.AccessManagement.Core.ValueTypes;
 
 namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
-public sealed class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyMemo>
+public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyMemo>
 {
     private CompanyName name;
     private List<UserId> members;
@@ -44,16 +43,10 @@ public sealed class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyM
         this.StoreEvent(new CompanyMemberAddedEvent(this.Id, memberId));
     }
 
-    public void Save(ICompanyMemo memo, CompanyCreatedEvent @event)
+    public void RemoveMember(UserId memberId)
     {
-        memo.State = EMemoState.Created;
-        memo.Id = @event.Id;
-        memo.Name = @event.Name;
-    }
-
-    public void Save(ICompanyMemo memo, CompanyMemberAddedEvent @event)
-    {
-        memo.State = EMemoState.Updated;
+        this.members.Remove(memberId);
+        this.StoreEvent(new CompanyMemberRemovedEvent(this.Id, memberId));
     }
 
     public override CompanyAggregate Load(ICompanyMemo memo)
