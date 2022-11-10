@@ -1,5 +1,5 @@
-using GB.AccessManagement.Accesses.Queries;
-using GB.AccessManagement.Accesses.Queries.ListUserAccesses;
+using GB.AccessManagement.Accesses.Contracts.Presentations;
+using GB.AccessManagement.Accesses.Contracts.Queries;
 using MediatR;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.ListUserAccesses;

@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Commands.DeleteUserAccess;
+using GB.AccessManagement.Accesses.Contracts.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.DeleteUserAccess;

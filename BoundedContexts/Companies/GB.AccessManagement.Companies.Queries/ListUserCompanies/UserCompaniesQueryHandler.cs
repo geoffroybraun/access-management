@@ -1,28 +1,35 @@
-using GB.AccessManagement.Accesses.Contracts.Providers;
+using GB.AccessManagement.Accesses.Contracts.Queries;
+using GB.AccessManagement.Companies.Contracts.Presentations;
+using GB.AccessManagement.Companies.Contracts.Queries;
+using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Core.Queries;
+using MediatR;
 
 namespace GB.AccessManagement.Companies.Queries.ListUserCompanies;
 
 public sealed class UserCompaniesQueryHandler : QueryHandler<UserCompaniesQuery, CompanyPresentation[]>
 {
-    private readonly IObjectIdProvider provider;
+    private const string OvjectType = "companies";
+    private const string Relation = "member";
     private readonly ICompanyRepository repository;
+    private readonly IMediator mediator;
 
-    public UserCompaniesQueryHandler(IObjectIdProvider provider, ICompanyRepository repository)
+    public UserCompaniesQueryHandler(ICompanyRepository repository, IMediator mediator)
     {
-        this.provider = provider;
         this.repository = repository;
+        this.mediator = mediator;
     }
 
     protected override async Task<CompanyPresentation[]> Handle(UserCompaniesQuery query)
     {
-        var companyIds = await this.provider.List(query.UserId, "companies", "member");
+        var companyIdsQuery = new ListUserObjectIdsQuery(query.UserId.ToString(), OvjectType, Relation);
+        var companyIds = await this.mediator.Send(companyIdsQuery);
 
         if (!companyIds.Any())
         {
             return Array.Empty<CompanyPresentation>();
         }
         
-        return await this.repository.List(companyIds);
+        return await this.repository.List(companyIds.Select(id => (CompanyId)Guid.Parse(id)).ToArray());
     }
 }

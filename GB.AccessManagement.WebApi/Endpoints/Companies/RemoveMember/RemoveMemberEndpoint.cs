@@ -1,4 +1,4 @@
-using GB.AccessManagement.Companies.Commands.RemoveMember;
+using GB.AccessManagement.Companies.Contracts.Commands;
 using MediatR;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Companies.RemoveMember;

@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Companies.Queries.GetCompanyOwner;
+using GB.AccessManagement.Companies.Contracts.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Companies.CompanyOwner;

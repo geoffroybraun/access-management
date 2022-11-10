@@ -1,7 +1,6 @@
-using GB.AccessManagement.Accesses.Contracts.Providers;
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Domain.Providers;
+using GB.AccessManagement.Accesses.Domain.ValueTypes;
 using GB.AccessManagement.Core.Services;
-using GB.AccessManagement.Core.ValueTypes;
 using Microsoft.Extensions.Options;
 using OpenFga.Sdk.Api;
 using OpenFga.Sdk.Configuration;
@@ -20,7 +19,7 @@ public sealed class OpenFgaUserIdProvider : IUserIdProvider, IScopedService
         this.options = options.Value;
     }
 
-    public async Task<UserId[]> List(ObjectType objectType, ObjectId objectId, Relation relation)
+    public async Task<UserId[]?> List(ObjectType objectType, ObjectId objectId, Relation relation)
     {
         using var api = this.CreateApi();
         var response = await api.Read(new ReadRequest

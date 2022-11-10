@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using GB.AccessManagement.Companies.Contracts.ValueTypes;
 using GB.AccessManagement.Companies.Domain.Memos;
+using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Core.Aggregates.Memos;
-using GB.AccessManagement.Core.ValueTypes;
 
 namespace GB.AccessManagement.Companies.Infrastructure.Daos;
 

@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Companies.Queries.CompanyMembers;
+using GB.AccessManagement.Companies.Contracts.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Companies.CompanyMembers;

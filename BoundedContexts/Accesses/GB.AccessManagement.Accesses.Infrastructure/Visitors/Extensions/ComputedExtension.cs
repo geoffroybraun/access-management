@@ -1,11 +1,11 @@
-using GB.AccessManagement.Core.ValueTypes;
+using GB.AccessManagement.Accesses.Domain.ValueTypes;
 using OpenFga.Sdk.Model;
 
 namespace GB.AccessManagement.Accesses.Infrastructure.Visitors.Extensions;
 
 public static class ComputedExtension
 {
-    public static async Task<UserId[]> Accept(this List<Computed> computedList, IUserSetTreeVisitor visitor)
+    public static async Task<UserId[]?> Accept(this List<Computed> computedList, IUserSetTreeVisitor visitor)
     {
         List<UserId> result = new();
 
@@ -17,7 +17,7 @@ public static class ComputedExtension
         return result.ToArray();
     }
     
-    public static async Task<UserId[]> Accept(this Computed computed, IUserSetTreeVisitor visitor)
+    public static async Task<UserId[]?> Accept(this Computed computed, IUserSetTreeVisitor visitor)
     {
         return await visitor.Visit(computed.Userset);
     }

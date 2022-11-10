@@ -1,4 +1,4 @@
-using GB.AccessManagement.Companies.Contracts.Events.Companies;
+using GB.AccessManagement.Companies.Domain.Events.Companies;
 using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Core.Aggregates.Memos;
 

@@ -1,3 +1,4 @@
+using GB.AccessManagement.Companies.Contracts.Commands;
 using GB.AccessManagement.Core.Commands;
 
 namespace GB.AccessManagement.Companies.Commands.AddMember;

@@ -1,5 +1,5 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Companies.Commands.RemoveMember;
+using GB.AccessManagement.Companies.Contracts.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Companies.RemoveMember;

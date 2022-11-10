@@ -1,3 +1,4 @@
+using GB.AccessManagement.Accesses.Contracts.Commands;
 using GB.AccessManagement.Core.Commands;
 
 namespace GB.AccessManagement.Accesses.Commands.DeleteUserAccess;

@@ -1,6 +1,6 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Queries;
-using GB.AccessManagement.Accesses.Queries.ListUserAccesses;
+using GB.AccessManagement.Accesses.Contracts.Presentations;
+using GB.AccessManagement.Accesses.Contracts.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.ListUserAccesses;

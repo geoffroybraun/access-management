@@ -1,4 +1,4 @@
-using GB.AccessManagement.Accesses.Commands.DeleteUserAccess;
+using GB.AccessManagement.Accesses.Contracts.Commands;
 using MediatR;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.DeleteUserAccess;

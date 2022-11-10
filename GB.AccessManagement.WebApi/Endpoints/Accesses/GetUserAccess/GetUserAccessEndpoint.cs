@@ -1,4 +1,4 @@
-using GB.AccessManagement.Accesses.Queries.GetUserAccess;
+using GB.AccessManagement.Accesses.Contracts.Queries;
 using MediatR;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.GetUserAccess;

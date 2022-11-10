@@ -1,4 +1,4 @@
-using GB.AccessManagement.Companies.Queries.GetCompanyOwner;
+using GB.AccessManagement.Companies.Contracts.Queries;
 using MediatR;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Companies.CompanyOwner;

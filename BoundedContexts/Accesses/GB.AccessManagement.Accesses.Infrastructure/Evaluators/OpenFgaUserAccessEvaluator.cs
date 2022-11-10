@@ -1,5 +1,5 @@
-using GB.AccessManagement.Accesses.Contracts.Evaluators;
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Domain.Evaluators;
+using GB.AccessManagement.Accesses.Domain.ValueTypes;
 using GB.AccessManagement.Core.Services;
 using Microsoft.Extensions.Options;
 using OpenFga.Sdk.Api;

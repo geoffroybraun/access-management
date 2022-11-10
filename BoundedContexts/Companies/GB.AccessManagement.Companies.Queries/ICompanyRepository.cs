@@ -1,8 +1,9 @@
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Companies.Contracts.Presentations;
+using GB.AccessManagement.Companies.Domain.ValueTypes;
 
 namespace GB.AccessManagement.Companies.Queries;
 
 public interface ICompanyRepository
 {
-    Task<CompanyPresentation[]> List(ObjectId[] ids);
+    Task<CompanyPresentation[]> List(CompanyId[] ids);
 }

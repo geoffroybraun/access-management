@@ -1,15 +1,14 @@
-using GB.AccessManagement.Accesses.Contracts.Providers;
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
-using GB.AccessManagement.Companies.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Contracts.Queries;
+using GB.AccessManagement.Companies.Contracts.Presentations;
 using GB.AccessManagement.Companies.Domain.Aggregates;
 using GB.AccessManagement.Companies.Domain.Memos;
+using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Companies.Infrastructure.Contexts;
 using GB.AccessManagement.Companies.Infrastructure.Daos;
-using GB.AccessManagement.Companies.Queries;
 using GB.AccessManagement.Core.Aggregates.Memos;
 using GB.AccessManagement.Core.Events.Publishers;
 using GB.AccessManagement.Core.Services;
-using GB.AccessManagement.Core.ValueTypes;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace GB.AccessManagement.Companies.Infrastructure;
@@ -19,13 +18,13 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
     private const string ObjectType = "companies";
     private const string Relation = "member";
     private readonly CompanyDbContext dbContext;
-    private readonly IUserIdProvider provider;
+    private readonly IMediator mediator;
     private readonly IDomainEventPublisher publisher;
 
-    public CompanyRepository(CompanyDbContext dbContext, IUserIdProvider provider, IDomainEventPublisher publisher)
+    public CompanyRepository(CompanyDbContext dbContext, IMediator mediator, IDomainEventPublisher publisher)
     {
         this.dbContext = dbContext;
-        this.provider = provider;
+        this.mediator = mediator;
         this.publisher = publisher;
     }
 
@@ -45,8 +44,8 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
     async Task<CompanyAggregate> Commands.ICompanyRepository.Load(CompanyId companyId)
     {
         var dao = await FindAsync(companyId);
-        var members = await this.provider.List(ObjectType, companyId.ToString(), Relation);
-        (dao as ICompanyMemo).Members = new List<UserId>(members);
+        var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, companyId.ToString(), Relation));
+        (dao as ICompanyMemo).Members = new List<UserId>(members.Select(member => (UserId)member));
         
         var aggregate = new CompanyAggregate();
         aggregate.Load(dao);
@@ -54,7 +53,7 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
         return aggregate;
     }
 
-    async Task<CompanyPresentation[]> ICompanyRepository.List(ObjectId[] ids)
+    async Task<CompanyPresentation[]> Queries.ICompanyRepository.List(CompanyId[] ids)
     {
         Guid[] companyIds = ids
             .Select(id => Guid.Parse(id.ToString()))

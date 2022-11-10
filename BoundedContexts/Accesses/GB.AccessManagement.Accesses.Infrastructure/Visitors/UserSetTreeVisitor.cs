@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using GB.AccessManagement.Accesses.Contracts.Providers;
+using GB.AccessManagement.Accesses.Domain.Providers;
+using GB.AccessManagement.Accesses.Domain.ValueTypes;
 using GB.AccessManagement.Accesses.Infrastructure.Visitors.Extensions;
 using GB.AccessManagement.Core.Services;
-using GB.AccessManagement.Core.ValueTypes;
 using OpenFga.Sdk.Model;
 
 namespace GB.AccessManagement.Accesses.Infrastructure.Visitors;
@@ -12,7 +12,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
     private const string ObjectTypeGroupName = "objectType";
     private const string ObjectIdGroupName = "objectId";
     private const string RelationGroupName = "relation";
-    private static readonly UserId[] DefaultArray = Array.Empty<UserId>();
+    private static readonly UserId[]? DefaultArray = Array.Empty<UserId>();
     private static readonly Regex SetRegex = new Regex($"(?<{ObjectTypeGroupName}>[^:]+):(?<{ObjectIdGroupName}>[^#]+)#(?<{RelationGroupName}>.+)", RegexOptions.Compiled);
     private readonly IUserIdProvider provider;
 
@@ -21,7 +21,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         this.provider = provider;
     }
 
-    public async Task<UserId[]> Visit(UsersetTree? tree)
+    public async Task<UserId[]?> Visit(UsersetTree? tree)
     {
         if (tree is null)
         {
@@ -31,7 +31,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return await tree.Accept(this);
     }
 
-    public async Task<UserId[]> Visit(Node? node)
+    public async Task<UserId[]?> Visit(Node? node)
     {
         if (node is null)
         {
@@ -41,7 +41,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return await node.Accept(this);
     }
 
-    public async Task<UserId[]> Visit(Nodes? nodes)
+    public async Task<UserId[]?> Visit(Nodes? nodes)
     {
         if (nodes is null || nodes._Nodes is null || !nodes._Nodes.Any())
         {
@@ -51,7 +51,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return await nodes._Nodes.Accept(this);
     }
 
-    public async Task<UserId[]> Visit(Leaf? leaf)
+    public async Task<UserId[]?> Visit(Leaf? leaf)
     {
         if (leaf is null)
         {
@@ -61,7 +61,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return await leaf.Accept(this);
     }
 
-    public async Task<UserId[]> Visit(UsersetTreeDifference? difference)
+    public async Task<UserId[]?> Visit(UsersetTreeDifference? difference)
     {
         if (difference is null)
         {
@@ -71,7 +71,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return await difference.Accept(this);
     }
 
-    public async Task<UserId[]> Visit(List<Computed>? computedList)
+    public async Task<UserId[]?> Visit(List<Computed>? computedList)
     {
         if (computedList is null || !computedList.Any())
         {
@@ -81,7 +81,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return await computedList.Accept(this);
     }
 
-    public async Task<UserId[]> Visit(Computed? computed)
+    public async Task<UserId[]?> Visit(Computed? computed)
     {
         if (computed is null)
         {
@@ -91,7 +91,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return await computed.Accept(this);
     }
 
-    public async Task<UserId[]> Visit(UsersetTreeTupleToUserset? userSet)
+    public async Task<UserId[]?> Visit(UsersetTreeTupleToUserset? userSet)
     {
         if (userSet is null)
         {
@@ -101,7 +101,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return await userSet.Accept(this);
     }
 
-    public Task<UserId[]> Visit(Users? users)
+    public Task<UserId[]?> Visit(Users? users)
     {
         if (users is null || users._Users is null || !users._Users.Any())
         {
@@ -116,7 +116,7 @@ public sealed class UserSetTreeVisitor : IUserSetTreeVisitor, IScopedService
         return Task.FromResult(result);
     }
 
-    public async Task<UserId[]> Visit(string? set)
+    public async Task<UserId[]?> Visit(string? set)
     {
         set = set?.Trim();
 

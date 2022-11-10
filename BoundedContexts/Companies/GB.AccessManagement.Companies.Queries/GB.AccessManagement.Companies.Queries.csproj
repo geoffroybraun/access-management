@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Accesses\GB.AccessManagement.Accesses.Contracts\GB.AccessManagement.Accesses.Contracts.csproj" />
       <ProjectReference Include="..\GB.AccessManagement.Companies.Contracts\GB.AccessManagement.Companies.Contracts.csproj" />
+      <ProjectReference Include="..\GB.AccessManagement.Companies.Domain\GB.AccessManagement.Companies.Domain.csproj" />
     </ItemGroup>
 
 </Project>

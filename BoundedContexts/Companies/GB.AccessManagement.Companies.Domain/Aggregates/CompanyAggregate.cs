@@ -1,8 +1,7 @@
-using GB.AccessManagement.Companies.Contracts.Events.Companies;
-using GB.AccessManagement.Companies.Contracts.ValueTypes;
+using GB.AccessManagement.Companies.Domain.Events.Companies;
 using GB.AccessManagement.Companies.Domain.Memos;
+using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Core.Aggregates;
-using GB.AccessManagement.Core.ValueTypes;
 
 namespace GB.AccessManagement.Companies.Domain.Aggregates;
 

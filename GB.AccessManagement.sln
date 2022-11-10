@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Compani
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Companies.Queries", "BoundedContexts\Companies\GB.AccessManagement.Companies.Queries\GB.AccessManagement.Companies.Queries.csproj", "{1A24A70F-1D30-4B86-BEC0-548530BE535D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GB.AccessManagement.Accesses.Domain", "BoundedContexts\Accesses\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj", "{46758239-47A2-437B-8664-D92E9E874235}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{1A24A70F-1D30-4B86-BEC0-548530BE535D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A24A70F-1D30-4B86-BEC0-548530BE535D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A24A70F-1D30-4B86-BEC0-548530BE535D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46758239-47A2-437B-8664-D92E9E874235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46758239-47A2-437B-8664-D92E9E874235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46758239-47A2-437B-8664-D92E9E874235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46758239-47A2-437B-8664-D92E9E874235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9354E543-12B2-400E-994D-C9E9ABDC1052} = {A6D802D7-CBD4-4AF4-9C40-B8EA565E12C8}
@@ -91,5 +97,6 @@ Global
 		{2B489FCA-207D-4165-BAB5-E5A2072A2A7F} = {C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC}
 		{DD505B4A-0326-44AD-8A9F-B33139F614C9} = {C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC}
 		{1A24A70F-1D30-4B86-BEC0-548530BE535D} = {C22B2A9A-BC6B-4D23-9A1D-81D7190C86DC}
+		{46758239-47A2-437B-8664-D92E9E874235} = {9354E543-12B2-400E-994D-C9E9ABDC1052}
 	EndGlobalSection
 EndGlobal

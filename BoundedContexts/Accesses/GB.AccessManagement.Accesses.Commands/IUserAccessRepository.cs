@@ -1,4 +1,4 @@
-using GB.AccessManagement.Accesses.Contracts.ValueTypes;
+using GB.AccessManagement.Accesses.Domain.ValueTypes;
 
 namespace GB.AccessManagement.Accesses.Commands;
 

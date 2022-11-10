@@ -1,3 +1,4 @@
+using GB.AccessManagement.Companies.Contracts.Commands;
 using GB.AccessManagement.Companies.Domain.Aggregates;
 using GB.AccessManagement.Core.Commands;
 

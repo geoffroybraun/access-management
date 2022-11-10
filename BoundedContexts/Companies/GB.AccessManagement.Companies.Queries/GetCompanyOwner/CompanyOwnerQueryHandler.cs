@@ -1,24 +1,26 @@
-using GB.AccessManagement.Accesses.Contracts.Providers;
+using GB.AccessManagement.Accesses.Contracts.Queries;
+using GB.AccessManagement.Companies.Contracts.Queries;
 using GB.AccessManagement.Core.Queries;
-using GB.AccessManagement.Core.ValueTypes;
+using MediatR;
 
 namespace GB.AccessManagement.Companies.Queries.GetCompanyOwner;
 
-public sealed class CompanyOwnerQueryHandler : QueryHandler<CompanyOwnerQuery, UserId>
+public sealed class CompanyOwnerQueryHandler : QueryHandler<CompanyOwnerQuery, Guid>
 {
     private const string ObjectType = "companies";
     private const string Relation = "owner";
-    private readonly IUserIdProvider provider;
+    private readonly IMediator _mediator;
 
-    public CompanyOwnerQueryHandler(IUserIdProvider provider)
+    public CompanyOwnerQueryHandler(IMediator mediator)
     {
-        this.provider = provider;
+        _mediator = mediator;
     }
 
-    protected override async Task<UserId> Handle(CompanyOwnerQuery query)
+    protected override async Task<Guid> Handle(CompanyOwnerQuery query)
     {
-        var userIds = await this.provider.List(ObjectType, query.CompanyId.ToString(), Relation);
+        var membersQuery = new ListObjectUserIdsQuery(ObjectType, query.CompanyId.ToString(), Relation);
+        var userIds = await this._mediator.Send(membersQuery);
 
-        return userIds.Single();
+        return Guid.Parse(userIds.Single());
     }
 }

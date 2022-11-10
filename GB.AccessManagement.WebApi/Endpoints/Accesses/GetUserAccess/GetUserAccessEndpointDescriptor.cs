@@ -1,6 +1,6 @@
 using Asp.Versioning.Builder;
-using GB.AccessManagement.Accesses.Queries;
-using GB.AccessManagement.Accesses.Queries.GetUserAccess;
+using GB.AccessManagement.Accesses.Contracts.Presentations;
+using GB.AccessManagement.Accesses.Contracts.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GB.AccessManagement.WebApi.Endpoints.Accesses.GetUserAccess;
@@ -12,7 +12,7 @@ public sealed class GetUserAccessEndpointDescriptor : IEndpointDescriptor
     public void Describe(IEndpointRouteBuilder builder, ApiVersionSet apiVersions)
     {
         builder.MapGet(Endpoint, async (
-            [FromRoute(Name = "id")] Guid userId,
+            [FromRoute(Name = "id")] string userId,
             [FromRoute(Name = "object-type")] string objectType,
             [FromRoute(Name = "object-id")] string objectId,
             [FromServices] IEndpoint<GetUserAccessQuery> endpoint) =>

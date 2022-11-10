@@ -1,3 +1,5 @@
+using GB.AccessManagement.Accesses.Contracts.Presentations;
+using GB.AccessManagement.Accesses.Contracts.Queries;
 using GB.AccessManagement.Core.Queries;
 
 namespace GB.AccessManagement.Accesses.Queries.ListUserAccesses;
