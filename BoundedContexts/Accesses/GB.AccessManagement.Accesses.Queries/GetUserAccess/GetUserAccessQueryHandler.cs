@@ -22,6 +22,6 @@ public sealed class GetUserAccessQueryHandler : QueryHandler<GetUserAccessQuery,
             return default;
         }
 
-        return new(query.UserId, query.ObjectType, query.ObjectId, relation);
+        return new(query.UserId.ToString(), query.ObjectType, query.ObjectId, relation);
     }
 }

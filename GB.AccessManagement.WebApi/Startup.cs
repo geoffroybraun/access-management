@@ -32,6 +32,7 @@ public sealed class Startup
             .UseAuthentication()
             .UseAuthorization()
             .UseSwagger()
-            .UseEndpoints(Assemblies);
+            .UseEndpoints(Assemblies)
+            .MapControllers();
     }
 }

@@ -1,6 +1,6 @@
 using GB.AccessManagement.Accesses.Contracts.Commands;
 
-namespace GB.AccessManagement.WebApi.Endpoints.Accesses.CreateUserAccess;
+namespace GB.AccessManagement.WebApi.Controllers.Requests.Accesses;
 
 public sealed record CreateUserAccessRequest(string ObjectType, string ObjectId, string Relation)
 {
