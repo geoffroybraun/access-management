@@ -5,7 +5,7 @@ namespace GB.AccessManagement.Accesses.Infrastructure.Visitors.Extensions;
 
 public static class UserSetTreeTupleToUserSetExtension
 {
-    public static async Task<UserId[]?> Accept(this UsersetTreeTupleToUserset userSet, IUserSetTreeVisitor visitor)
+    public static async Task<UserId[]> Accept(this UsersetTreeTupleToUserset userSet, IUserSetTreeVisitor visitor)
     {
         return Array.Empty<UserId>()
             .Union(await visitor.Visit(userSet.Computed))

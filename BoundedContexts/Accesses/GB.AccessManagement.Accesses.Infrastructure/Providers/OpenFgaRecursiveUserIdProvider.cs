@@ -25,7 +25,7 @@ public sealed class OpenFgaRecursiveUserIdProvider : IRecursiveUserIdProvider, I
         this.options = options.Value;
     }
 
-    public async Task<UserId[]?> Expand(ObjectType objectType, ObjectId objectId, Relation relation)
+    public async Task<UserId[]> Expand(ObjectType objectType, ObjectId objectId, Relation relation)
     {
         using var api = this.CreateApi();
         var response = await api.Expand(new ExpandRequest
