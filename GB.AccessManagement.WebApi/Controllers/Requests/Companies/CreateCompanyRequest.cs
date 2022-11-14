@@ -6,4 +6,6 @@ public sealed record CreateCompanyRequest
 {
     [Required]
     public string Name { get; init; } = string.Empty;
+    
+    public Guid? ParentCompanyId { get; init; }
 }

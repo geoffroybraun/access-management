@@ -29,6 +29,21 @@ public sealed record CompanyDao : ICompanyMemo
         get => this.Name;
         set => this.Name = value;
     }
+    
+    [Column("parent_company_id")]
+    public Guid? ParentCompanyId { get; set; }
+
+    CompanyId? ICompanyMemo.ParentCompanyId
+    {
+        get => this.ParentCompanyId;
+        set
+        {
+            if (value != null)
+            {
+                this.ParentCompanyId = value;
+            }
+        }
+    }
 
     [NotMapped]
     public IList<Guid> Members { get; set; } = new List<Guid>();

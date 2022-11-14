@@ -35,7 +35,7 @@ public sealed class CompanyController : ControllerBase
         [FromRoute(Name = "user")] Guid userId,
         [FromBody] CreateCompanyRequest request)
     {
-        CreateCompanyCommand command = new(request.Name, userId);
+        CreateCompanyCommand command = new(request.Name, userId, request.ParentCompanyId);
         var companyId = await this.mediator.Send(command);
 
         string companyUri = $"v1/users/{userId}/companies/{companyId}";
@@ -112,5 +112,17 @@ public sealed class CompanyController : ControllerBase
         _ = await this.mediator.Send(command);
 
         return this.NoContent();
+    }
+
+    [HttpGet("companies/{company}/parent")]
+    [ProducesResponseType(typeof(CompanyPresentation), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> Parent([FromRoute(Name = "company")] Guid companyId)
+    {
+        var parentCompany = await this.mediator.Send(new CompanyParentQuery(companyId));
+
+        return parentCompany is not null ? this.Ok(parentCompany) : this.NotFound();
     }
 }

@@ -19,7 +19,7 @@ public sealed class OpenFgaUserIdProvider : IUserIdProvider, IScopedService
         this.options = options.Value;
     }
 
-    public async Task<UserId[]?> List(ObjectType objectType, ObjectId objectId, Relation relation)
+    public async Task<UserId[]> List(ObjectType objectType, ObjectId objectId, Relation relation)
     {
         using var api = this.CreateApi();
         var response = await api.Read(new ReadRequest
@@ -31,7 +31,11 @@ public sealed class OpenFgaUserIdProvider : IUserIdProvider, IScopedService
             }
         });
 
-        return response.Tuples?.Select(tuple => (UserId)tuple.Key!.User!).ToArray() ?? Array.Empty<UserId>();
+        return response
+            .Tuples?
+            .Where(tuple => !tuple.Key!.User!.Contains(':'))
+            .Select(tuple => (UserId)tuple.Key!.User!)
+            .ToArray() ?? Array.Empty<UserId>();
     }
 
     private OpenFgaApi CreateApi()

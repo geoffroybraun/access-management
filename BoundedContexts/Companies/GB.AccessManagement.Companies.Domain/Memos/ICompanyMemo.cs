@@ -9,5 +9,7 @@ public interface ICompanyMemo : IAggregateMemo
     
     CompanyName Name { get; set; }
     
+    CompanyId? ParentCompanyId { get; set; }
+    
     ICollection<UserId> Members { get; set; }
 }

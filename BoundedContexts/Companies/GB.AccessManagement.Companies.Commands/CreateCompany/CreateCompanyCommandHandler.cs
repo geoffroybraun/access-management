@@ -17,6 +17,12 @@ public sealed class CreateCompanyCommandHandler : CommandHandler<CreateCompanyCo
     {
         var aggregate = CompanyAggregate.Create(command.Name);
         aggregate.DefineOwnerId(command.OwnerId);
+
+        if (command.ParentCompanyId is not null)
+        {
+            aggregate.AttachToCompany(command.ParentCompanyId);
+        }
+        
         await this.repository.Save(aggregate);
 
         return aggregate.Id;

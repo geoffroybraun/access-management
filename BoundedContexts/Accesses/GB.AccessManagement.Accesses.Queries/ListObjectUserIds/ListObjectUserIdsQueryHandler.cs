@@ -18,7 +18,7 @@ public sealed class ListObjectUserIdsQueryHandler : QueryHandler<ListObjectUserI
 
     protected override async Task<string[]> Handle(ListObjectUserIdsQuery query)
     {
-        UserId[] userIds = Array.Empty<UserId>();
+        UserId[] userIds;
 
         switch (query.IsRecursive)
         {

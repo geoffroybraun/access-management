@@ -6,4 +6,6 @@ namespace GB.AccessManagement.Companies.Queries;
 public interface ICompanyRepository
 {
     Task<CompanyPresentation[]> List(CompanyId[] ids);
+
+    Task<CompanyPresentation> Get(CompanyId id);
 }

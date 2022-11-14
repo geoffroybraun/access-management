@@ -22,4 +22,9 @@ public sealed partial class CompanyAggregate
     {
         memo.State = EMemoState.Unchanged;
     }
+
+    public void Save(ICompanyMemo memo, CompanyAttachedToParentEvent @event)
+    {
+        memo.ParentCompanyId = this.parentCompanyId;
+    }
 }

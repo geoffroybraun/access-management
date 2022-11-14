@@ -4,5 +4,5 @@ namespace GB.AccessManagement.Accesses.Domain.Providers;
 
 public interface IRecursiveUserIdProvider
 {
-    Task<UserId[]?> Expand(ObjectType objectType, ObjectId objectId, Relation relation);
+    Task<UserId[]> Expand(ObjectType objectType, ObjectId objectId, Relation relation);
 }

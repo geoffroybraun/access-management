@@ -7,9 +7,10 @@ namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
 public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyMemo>
 {
+    private readonly List<UserId> members = new();
     private CompanyName name;
-    private List<UserId> members;
     private UserId? ownerId;
+    private CompanyId? parentCompanyId;
 
     public CompanyId Id { get; private set; }
 
@@ -19,7 +20,6 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, I
     {
         this.Id = id;
         this.name = name;
-        this.members = new();
     }
 
     public static CompanyAggregate Create(CompanyName name)
@@ -34,6 +34,12 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, I
     {
         this.ownerId = ownerId;
         this.StoreEvent(new CompanyOwnerDefinedEvent(this.Id, this.ownerId));
+    }
+
+    public void AttachToCompany(CompanyId parentCompanyId)
+    {
+        this.parentCompanyId = parentCompanyId;
+        this.StoreEvent(new CompanyAttachedToParentEvent(this.Id, this.parentCompanyId));
     }
 
     public void AddMember(UserId memberId)
@@ -52,9 +58,16 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, I
     {
         this.Id = memo.Id;
         this.name = memo.Name;
-        
-        this.members = new();
-        this.members.AddRange(memo.Members.Select(user => (UserId)user));
+
+        if (memo.Members.Any())
+        {
+            this.members.AddRange(memo.Members.Select(user => user));
+        }
+
+        if (memo.ParentCompanyId is not null)
+        {
+            this.parentCompanyId = memo.ParentCompanyId;
+        }
 
         return this;
     }

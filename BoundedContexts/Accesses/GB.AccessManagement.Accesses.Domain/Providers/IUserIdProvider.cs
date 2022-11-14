@@ -4,5 +4,5 @@ namespace GB.AccessManagement.Accesses.Domain.Providers;
 
 public interface IUserIdProvider
 {
-    Task<UserId[]?> List(ObjectType objectType, ObjectId objectId, Relation relation);
+    Task<UserId[]> List(ObjectType objectType, ObjectId objectId, Relation relation);
 }
