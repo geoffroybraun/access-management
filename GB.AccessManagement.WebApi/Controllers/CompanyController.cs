@@ -35,7 +35,7 @@ public sealed class CompanyController : ControllerBase
         [FromRoute(Name = "user")] Guid userId,
         [FromBody] CreateCompanyRequest request)
     {
-        CreateCompanyCommand command = new(request.Name, userId);
+        CreateCompanyCommand command = new(request.Name, userId, request.ParentCompanyId);
         var companyId = await this.mediator.Send(command);
 
         string companyUri = $"v1/users/{userId}/companies/{companyId}";
