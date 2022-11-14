@@ -1,4 +1,3 @@
-using GB.AccessManagement.Accesses.Commands;
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
 using GB.AccessManagement.Core.Services;
 using Microsoft.Extensions.Options;
@@ -8,7 +7,7 @@ using OpenFga.Sdk.Model;
 
 namespace GB.AccessManagement.Accesses.Infrastructure.Repositories;
 
-public sealed class OpenFgaObjectAccessRepository : IObjectAccessRepository, IScopedService
+public sealed class OpenFgaObjectAccessRepository : Commands.IObjectAccessRepository, Queries.IObjectAccessRepository, IScopedService
 {
     private readonly OpenFgaOptions options;
     private readonly IHttpClientFactory factory;
@@ -19,7 +18,7 @@ public sealed class OpenFgaObjectAccessRepository : IObjectAccessRepository, ISc
         this.factory = factory;
     }
 
-    public async Task Create(ObjectAccess access)
+    async Task Commands.IObjectAccessRepository.Create(ObjectAccess access)
     {
         using var api = this.CreateApi();
         _ = await api.Write(new WriteRequest
@@ -34,6 +33,26 @@ public sealed class OpenFgaObjectAccessRepository : IObjectAccessRepository, ISc
                 }
             })
         });
+    }
+
+    async Task<string[]> Queries.IObjectAccessRepository.List(ObjectType objectType, ObjectId objectId, Relation relation)
+    {
+        using var api = this.CreateApi();
+        var response = await api.Read(new ReadRequest
+        {
+            TupleKey = new()
+            {
+                Object = $"{objectType}:{objectId}",
+                Relation = relation
+            }
+        });
+
+        return response
+                   .Tuples?
+                   .Where(tuple => tuple.Key!.User!.Contains(':'))
+                   .Select(tuple => tuple.Key!.User!)
+                   .ToArray()
+               ?? Array.Empty<string>();
     }
 
     private OpenFgaApi CreateApi()

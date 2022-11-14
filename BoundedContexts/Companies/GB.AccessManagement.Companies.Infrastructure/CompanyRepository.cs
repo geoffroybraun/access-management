@@ -67,6 +67,16 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
             .ToArrayAsync();
     }
 
+    async Task<CompanyPresentation> Queries.ICompanyRepository.Get(CompanyId id)
+    {
+        return await this.dbContext
+            .Companies
+            .AsNoTracking()
+            .Where(company => company.Id == (Guid) id)
+            .Select(company => new CompanyPresentation(company.Id, company.Name))
+            .SingleAsync();
+    }
+
     private async Task<CompanyDao> FindAsync(Guid companyId)
     {
         var dao = await this.dbContext.Companies.SingleOrDefaultAsync(company => company.Id == companyId);

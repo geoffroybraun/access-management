@@ -113,4 +113,16 @@ public sealed class CompanyController : ControllerBase
 
         return this.NoContent();
     }
+
+    [HttpGet("companies/{company}/parent")]
+    [ProducesResponseType(typeof(CompanyPresentation), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> Parent([FromRoute(Name = "company")] Guid companyId)
+    {
+        var parentCompany = await this.mediator.Send(new CompanyParentQuery(companyId));
+
+        return parentCompany is not null ? this.Ok(parentCompany) : this.NotFound();
+    }
 }
