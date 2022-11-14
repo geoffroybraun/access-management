@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace GB.AccessManagement.WebApi.Controllers;
 
 [ApiController]
-[Route("v1/users/{user}/accesses")]
+[Route("v{version:apiVersion}/users/{user}/accesses")]
+[ApiVersion("1")]
 [Authorize]
 [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
 [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]

@@ -1,6 +1,6 @@
-using Asp.Versioning.ApiExplorer;
 using GB.AccessManagement.Core.Services;
 using GB.AccessManagement.WebApi.Authentication;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;

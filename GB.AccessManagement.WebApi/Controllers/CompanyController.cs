@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace GB.AccessManagement.WebApi.Controllers;
 
 [ApiController]
-[Route("v1")]
+[Route("v{version:apiVersion}")]
+[ApiVersion("1")]
 [Authorize]
 [Consumes("application/json")]
 [Produces("application/json")]
