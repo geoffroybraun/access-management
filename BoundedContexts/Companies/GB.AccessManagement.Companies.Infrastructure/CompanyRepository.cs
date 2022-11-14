@@ -90,6 +90,9 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
                 this.dbContext.Remove(memo);
                 break;
             
+            case EMemoState.Unchanged:
+                break;
+            
             default:
                 throw new ArgumentOutOfRangeException(nameof(memo.State));
         }

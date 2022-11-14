@@ -11,6 +11,8 @@ namespace GB.AccessManagement.WebApi.Controllers;
 [ApiController]
 [Route("v1/users/{user}/accesses")]
 [Authorize]
+[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
 [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
 public sealed class AccessController : ControllerBase
 {
@@ -24,8 +26,6 @@ public sealed class AccessController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(CreateUserAccessRequest), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> Create(
@@ -41,8 +41,6 @@ public sealed class AccessController : ControllerBase
     [HttpGet("{type}")]
     [ProducesResponseType(typeof(UserAccessPresentation[]), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> List(
@@ -50,16 +48,14 @@ public sealed class AccessController : ControllerBase
         [FromRoute(Name = "type")] string objectType)
     {
         ListUserAccessesQuery query = new(userId, objectType);
-        var presentations = await this.mediator.Send(query);
+        var userAccesses = await this.mediator.Send(query);
 
-        return this.Ok(presentations);
+        return this.Ok(userAccesses);
     }
 
     [HttpGet("{type}/{object}")]
     [ProducesResponseType(typeof(UserAccessPresentation), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> Single(
@@ -68,16 +64,14 @@ public sealed class AccessController : ControllerBase
         [FromRoute(Name = "object")] string objectId)
     {
         GetUserAccessQuery query = new(userId, objectType, objectId);
-        var presentation = await this.mediator.Send(query);
+        var userAccess = await this.mediator.Send(query);
 
-        return presentation is not null ? this.Ok(presentation) : this.NotFound();
+        return userAccess is not null ? this.Ok(userAccess) : this.NotFound();
     }
 
     [HttpDelete("{type}/{object}/{relation}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> Delete(

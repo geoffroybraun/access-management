@@ -6,7 +6,6 @@ namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
 public sealed partial class CompanyAggregate
 {
-
     public void Save(ICompanyMemo memo, CompanyCreatedEvent @event)
     {
         memo.State = EMemoState.Created;
@@ -16,11 +15,11 @@ public sealed partial class CompanyAggregate
 
     public void Save(ICompanyMemo memo, CompanyMemberAddedEvent @event)
     {
-        memo.State = EMemoState.Updated;
+        memo.State = EMemoState.Unchanged;
     }
 
     public void Save(ICompanyMemo memo, CompanyMemberRemovedEvent @event)
     {
-        memo.State = EMemoState.Updated;
+        memo.State = EMemoState.Unchanged;
     }
 }
