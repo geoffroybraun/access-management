@@ -4,5 +4,6 @@ public enum EMemoState
 {
     Created,
     Updated,
-    Deleted
+    Deleted,
+    Unchanged,
 }

@@ -16,6 +16,11 @@ public static class ServiceCollectionExtension
         return services.ConfigureServices<AuthorizationConfiguration>();
     }
 
+    public static IServiceCollection ConfigureControllers(this IServiceCollection services)
+    {
+        return services.ConfigureServices<ControllersConfiguration>();
+    }
+
     public static IServiceCollection ConfigureDatabase(this IServiceCollection services)
     {
         return services.ConfigureServices<DatabaseConfiguration>();

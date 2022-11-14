@@ -1,20 +1,15 @@
-using System.Reflection;
 using GB.AccessManagement.WebApi.Extensions;
 
 namespace GB.AccessManagement.WebApi;
 
 public sealed class Startup
 {
-    private static readonly Assembly[] Assemblies =
-    {
-        typeof(Startup).Assembly
-    };
-    
     public void ConfigureServices(IServiceCollection services)
     {
         _ = services
             .ConfigureAuthentication()
             .ConfigureAuthorization()
+            .ConfigureControllers()
             .ConfigureDatabase()
             .ConfigureHttpClients()
             .ConfigureMediatR()
@@ -31,8 +26,7 @@ public sealed class Startup
             .UseAccesses()
             .UseAuthentication()
             .UseAuthorization()
-            .UseSwagger()
-            .UseEndpoints(Assemblies)
-            .MapControllers();
+            .UseControllers()
+            .UseSwagger();
     }
 }

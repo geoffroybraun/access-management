@@ -1,4 +1,3 @@
-using System.Reflection;
 using GB.AccessManagement.WebApi.Configurations;
 using GB.AccessManagement.WebApi.Configurations.MiddlewareConfigurations;
 
@@ -25,15 +24,15 @@ public static class WebApplicationExtension
     {
         return app.Use<AuthorizationConfiguration>();
     }
+
+    public static WebApplication UseControllers(this WebApplication app)
+    {
+        return app.Use<ControllersConfiguration>();
+    }
     
     public static WebApplication UseSwagger(this WebApplication app)
     {
         return app.Use<SwaggerConfiguration>();
-    }
-    
-    public static WebApplication UseEndpoints(this WebApplication app, params Assembly[] assemblies)
-    {
-        return app.Use(new EndpointsConfiguration(assemblies));
     }
     
     private static WebApplication Use<TConfiguration>(this WebApplication app)
