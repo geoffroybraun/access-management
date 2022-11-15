@@ -1,14 +1,17 @@
-using System.Reflection;
+using GB.AccessManagement.Core.Aggregates.Events;
 using GB.AccessManagement.Core.Aggregates.Memos;
 using GB.AccessManagement.Core.Events;
 
 namespace GB.AccessManagement.Core.Aggregates;
 
-public abstract class AggregateRoot<TAggregate, TMemo> : IEventDrivenAggregate, IMemorizableAggregate<TAggregate, TMemo>
-    where TAggregate : AggregateRoot<TAggregate, TMemo>, new()
+public abstract class AggregateRoot<TAggregate, TAggregateId, TMemo> : IEventDrivenAggregate, IMemorizableAggregate<TAggregate, TMemo>
+    where TAggregate : AggregateRoot<TAggregate, TAggregateId, TMemo>
+    where TAggregateId : notnull
     where TMemo : IAggregateMemo
 {
     private readonly HashSet<DomainEvent> storedEvents = new();
+
+    public TAggregateId Id { get; protected set; } = default!;
 
     public DomainEvent[] UncommittedEvents => this.storedEvents.Where(@event => !@event.HasBeenCommitted).ToArray();
     
@@ -17,30 +20,15 @@ public abstract class AggregateRoot<TAggregate, TMemo> : IEventDrivenAggregate, 
         this.storedEvents.Add(domainEvent);
     }
 
-    public void Save<TEvent>(TMemo memo, TEvent @event) where TEvent : DomainEvent
+    public void Save<TEvent>(TEvent @event, TMemo memo) where TEvent : DomainEvent
     {
-        var methodInfo = typeof(TAggregate)
-            .GetMethods()
-            .SingleOrDefault(method => IsSaveMemoMethod(method, typeof(TMemo), @event.GetType()));
-
-        try
+        if (this is IEventApplierAggregate<TEvent, TMemo> eventApplier)
         {
-            methodInfo?.Invoke(this, new object[] { memo, @event });
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
+            eventApplier.Apply(@event, memo);
 
-    public abstract TAggregate Load(TMemo memo);
-
-    private static bool IsSaveMemoMethod(MethodInfo method, Type memoType, Type eventType)
-    {
-        return method.Name == "Save"
-               && method.GetParameters().Length == 2
-               && method.GetParameters().First().ParameterType == memoType
-               && method.GetParameters().Last().ParameterType == eventType;
+            return;
+        }
+        
+        throw new MissingMethodException();
     }
 }

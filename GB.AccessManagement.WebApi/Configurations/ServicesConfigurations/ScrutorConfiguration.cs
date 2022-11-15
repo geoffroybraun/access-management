@@ -1,5 +1,6 @@
 using System.Reflection;
 using GB.AccessManagement.Accesses.Infrastructure.Properties;
+using GB.AccessManagement.Companies.Domain.Properties;
 using GB.AccessManagement.Companies.Infrastructure.Properties;
 using GB.AccessManagement.Core.Properties;
 using GB.AccessManagement.Core.Services;
@@ -13,6 +14,7 @@ public sealed class ScrutorConfiguration : IServicesConfiguration
     {
         CoreAssemblyInfo.Assembly,
         AccessesInfrastructureAssemblyInfo.Assembly,
+        CompaniesDomainAssemblyInfo.Assembly,
         CompaniesInfrastructureAssemblyInfo.Assembly,
         typeof(Startup).Assembly
     };

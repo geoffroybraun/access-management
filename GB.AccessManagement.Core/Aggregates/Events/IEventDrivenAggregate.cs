@@ -1,6 +1,6 @@
 using GB.AccessManagement.Core.Events;
 
-namespace GB.AccessManagement.Core.Aggregates;
+namespace GB.AccessManagement.Core.Aggregates.Events;
 
 public interface IEventDrivenAggregate
 {

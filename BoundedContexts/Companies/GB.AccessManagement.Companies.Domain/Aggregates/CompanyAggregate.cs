@@ -5,41 +5,19 @@ using GB.AccessManagement.Core.Aggregates;
 
 namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
-public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyMemo>
+public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, CompanyId, ICompanyMemo>
 {
     private readonly List<UserId> members = new();
-    private CompanyName name;
-    private UserId? ownerId;
-    private CompanyId? parentCompanyId;
-
-    public CompanyId Id { get; private set; }
-
-    public CompanyAggregate() { }
+    private readonly CompanyName name;
+    private readonly UserId? ownerId;
+    private readonly CompanyId? parentCompanyId;
     
-    private CompanyAggregate(CompanyId id, CompanyName name)
+    private CompanyAggregate(CompanyId id, CompanyName name, UserId ownerId, CompanyId? parentCompanyId)
     {
         this.Id = id;
         this.name = name;
-    }
-
-    public static CompanyAggregate Create(CompanyName name)
-    {
-        var aggregate = new CompanyAggregate(Guid.NewGuid(), name);
-        aggregate.StoreEvent(new CompanyCreatedEvent(aggregate.Id, aggregate.name));
-        
-        return aggregate;
-    }
-
-    public void DefineOwnerId(UserId ownerId)
-    {
         this.ownerId = ownerId;
-        this.StoreEvent(new CompanyOwnerDefinedEvent(this.Id, this.ownerId));
-    }
-
-    public void AttachToCompany(CompanyId parentCompanyId)
-    {
         this.parentCompanyId = parentCompanyId;
-        this.StoreEvent(new CompanyAttachedToParentEvent(this.Id, this.parentCompanyId));
     }
 
     public void AddMember(UserId memberId)
@@ -52,23 +30,5 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, I
     {
         this.members.Remove(memberId);
         this.StoreEvent(new CompanyMemberRemovedEvent(this.Id, memberId));
-    }
-
-    public override CompanyAggregate Load(ICompanyMemo memo)
-    {
-        this.Id = memo.Id;
-        this.name = memo.Name;
-
-        if (memo.Members.Any())
-        {
-            this.members.AddRange(memo.Members.Select(user => user));
-        }
-
-        if (memo.ParentCompanyId is not null)
-        {
-            this.parentCompanyId = memo.ParentCompanyId;
-        }
-
-        return this;
     }
 }

@@ -5,17 +5,17 @@ namespace GB.AccessManagement.Companies.Commands.RemoveMember;
 
 public sealed class RemoveMemberCommandHandler : CommandHandler<RemoveMemberCommand>
 {
-    private readonly ICompanyRepository repository;
+    private readonly ICompanyStore store;
 
-    public RemoveMemberCommandHandler(ICompanyRepository repository)
+    public RemoveMemberCommandHandler(ICompanyStore store)
     {
-        this.repository = repository;
+        this.store = store;
     }
 
     protected override async Task Handle(RemoveMemberCommand command)
     {
-        var aggregate = await this.repository.Load(command.CompanyId);
+        var aggregate = await this.store.Load(command.CompanyId);
         aggregate.RemoveMember(command.MemberId);
-        await this.repository.Save(aggregate);
+        await this.store.Save(aggregate);
     }
 }

@@ -1,29 +1,24 @@
 using GB.AccessManagement.Companies.Contracts.Commands;
-using GB.AccessManagement.Companies.Domain.Aggregates;
+using GB.AccessManagement.Companies.Domain.Factories;
 using GB.AccessManagement.Core.Commands;
 
 namespace GB.AccessManagement.Companies.Commands.CreateCompany;
 
 public sealed class CreateCompanyCommandHandler : CommandHandler<CreateCompanyCommand, Guid>
 {
-    private readonly ICompanyRepository repository;
+    private readonly ICompanyAggregateCreator creator;
+    private readonly ICompanyStore store;
 
-    public CreateCompanyCommandHandler(ICompanyRepository repository)
+    public CreateCompanyCommandHandler(ICompanyAggregateCreator creator, ICompanyStore store)
     {
-        this.repository = repository;
+        this.creator = creator;
+        this.store = store;
     }
 
     protected override async Task<Guid> Handle(CreateCompanyCommand command)
     {
-        var aggregate = CompanyAggregate.Create(command.Name);
-        aggregate.DefineOwnerId(command.OwnerId);
-
-        if (command.ParentCompanyId is not null)
-        {
-            aggregate.AttachToCompany(command.ParentCompanyId);
-        }
-        
-        await this.repository.Save(aggregate);
+        var aggregate = this.creator.Create(command.Name, command.OwnerId, command.ParentCompanyId);
+        await this.store.Save(aggregate);
 
         return aggregate.Id;
     }
