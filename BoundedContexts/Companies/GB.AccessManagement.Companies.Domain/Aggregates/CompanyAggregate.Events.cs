@@ -7,8 +7,6 @@ namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
 public sealed partial class CompanyAggregate :
     IEventApplierAggregate<CompanyCreatedEvent, ICompanyMemo>,
-    IEventApplierAggregate<CompanyOwnerDefinedEvent, ICompanyMemo>,
-    IEventApplierAggregate<CompanyAttachedToParentEvent, ICompanyMemo>,
     IEventApplierAggregate<CompanyMemberAddedEvent, ICompanyMemo>,
     IEventApplierAggregate<CompanyMemberRemovedEvent, ICompanyMemo>
 {
@@ -17,16 +15,6 @@ public sealed partial class CompanyAggregate :
         memo.State = EMemoState.Created;
         memo.Id = @event.Id;
         memo.Name = @event.Name;
-    }
-
-    public void Apply(CompanyOwnerDefinedEvent @event, ICompanyMemo memo)
-    {
-        memo.OwnerId = @event.OwnerId;
-    }
-
-    public void Apply(CompanyAttachedToParentEvent @event, ICompanyMemo memo)
-    {
-        memo.ParentCompanyId = this.parentCompanyId;
     }
 
     public void Apply(CompanyMemberAddedEvent @event, ICompanyMemo memo)

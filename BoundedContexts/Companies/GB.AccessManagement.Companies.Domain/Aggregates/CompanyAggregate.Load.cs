@@ -10,17 +10,11 @@ public sealed partial class CompanyAggregate
     {
         public CompanyAggregate Load(ICompanyMemo memo)
         {
-            var aggregate = new CompanyAggregate(memo.Id, memo.Name);
-            aggregate.ownerId = memo.OwnerId;
+            var aggregate = new CompanyAggregate(memo.Id, memo.Name, memo.OwnerId, memo.ParentCompanyId);
                 
             if (memo.Members.Any())
             {
                 aggregate.members.AddRange(memo.Members);
-            }
-
-            if (memo.ParentCompanyId is not null)
-            {
-                aggregate.parentCompanyId = memo.ParentCompanyId;
             }
 
             return aggregate;

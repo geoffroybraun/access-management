@@ -8,14 +8,16 @@ namespace GB.AccessManagement.Companies.Domain.Aggregates;
 public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, CompanyId, ICompanyMemo>
 {
     private readonly List<UserId> members = new();
-    private CompanyName name;
-    private UserId? ownerId;
-    private CompanyId? parentCompanyId;
+    private readonly CompanyName name;
+    private readonly UserId? ownerId;
+    private readonly CompanyId? parentCompanyId;
     
-    private CompanyAggregate(CompanyId id, CompanyName name)
+    private CompanyAggregate(CompanyId id, CompanyName name, UserId ownerId, CompanyId? parentCompanyId)
     {
         this.Id = id;
         this.name = name;
+        this.ownerId = ownerId;
+        this.parentCompanyId = parentCompanyId;
     }
 
     public void AddMember(UserId memberId)
