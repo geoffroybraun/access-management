@@ -29,22 +29,4 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, C
         this.members.Remove(memberId);
         this.StoreEvent(new CompanyMemberRemovedEvent(this.Id, memberId));
     }
-
-    public override CompanyAggregate Load(ICompanyMemo memo)
-    {
-        this.Id = memo.Id;
-        this.name = memo.Name;
-
-        if (memo.Members.Any())
-        {
-            this.members.AddRange(memo.Members.Select(user => user));
-        }
-
-        if (memo.ParentCompanyId is not null)
-        {
-            this.parentCompanyId = memo.ParentCompanyId;
-        }
-
-        return this;
-    }
 }

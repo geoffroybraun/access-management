@@ -50,9 +50,9 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
     {
         var dao = await FindAsync(aggregate.Id);
 
-        foreach (var @event in aggregate.UncommittedEvents)
+        foreach (dynamic @event in aggregate.UncommittedEvents)
         {
-            aggregate.Save(dao, @event);
+            aggregate.Save(@event, dao);
         }
 
         await this.Save(dao);
