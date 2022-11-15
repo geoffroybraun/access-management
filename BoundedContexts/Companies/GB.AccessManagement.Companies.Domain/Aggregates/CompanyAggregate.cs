@@ -22,26 +22,6 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, I
         this.name = name;
     }
 
-    public static CompanyAggregate Create(CompanyName name)
-    {
-        var aggregate = new CompanyAggregate(Guid.NewGuid(), name);
-        aggregate.StoreEvent(new CompanyCreatedEvent(aggregate.Id, aggregate.name));
-        
-        return aggregate;
-    }
-
-    public void DefineOwnerId(UserId ownerId)
-    {
-        this.ownerId = ownerId;
-        this.StoreEvent(new CompanyOwnerDefinedEvent(this.Id, this.ownerId));
-    }
-
-    public void AttachToCompany(CompanyId parentCompanyId)
-    {
-        this.parentCompanyId = parentCompanyId;
-        this.StoreEvent(new CompanyAttachedToParentEvent(this.Id, this.parentCompanyId));
-    }
-
     public void AddMember(UserId memberId)
     {
         this.members.Add(memberId);
