@@ -28,7 +28,19 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
         this.publisher = publisher;
     }
 
-    async Task Commands.ICompanyRepository.Save(CompanyAggregate aggregate)
+    public async Task<CompanyAggregate> Load(CompanyId id)
+    {
+        var dao = await FindAsync(id);
+        var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, id.ToString(), Relation));
+        (dao as ICompanyMemo).Members = new List<UserId>(members.Select(member => (UserId)member));
+        
+        var aggregate = new CompanyAggregate();
+        aggregate.Load(dao);
+
+        return aggregate;
+    }
+
+    public async Task Save(CompanyAggregate aggregate)
     {
         var dao = await FindAsync(aggregate.Id);
 
@@ -41,19 +53,7 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
         await this.publisher.Publish(aggregate.UncommittedEvents);
     }
 
-    async Task<CompanyAggregate> Commands.ICompanyRepository.Load(CompanyId companyId)
-    {
-        var dao = await FindAsync(companyId);
-        var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, companyId.ToString(), Relation));
-        (dao as ICompanyMemo).Members = new List<UserId>(members.Select(member => (UserId)member));
-        
-        var aggregate = new CompanyAggregate();
-        aggregate.Load(dao);
-
-        return aggregate;
-    }
-
-    async Task<CompanyPresentation[]> Queries.ICompanyRepository.List(CompanyId[] ids)
+    public async Task<CompanyPresentation[]> List(CompanyId[] ids)
     {
         Guid[] companyIds = ids
             .Select(id => Guid.Parse(id.ToString()))
@@ -67,7 +67,7 @@ public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICo
             .ToArrayAsync();
     }
 
-    async Task<CompanyPresentation> Queries.ICompanyRepository.Get(CompanyId id)
+    public async Task<CompanyPresentation> Get(CompanyId id)
     {
         return await this.dbContext
             .Companies

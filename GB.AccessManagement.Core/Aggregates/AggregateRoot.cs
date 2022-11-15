@@ -4,8 +4,9 @@ using GB.AccessManagement.Core.Events;
 
 namespace GB.AccessManagement.Core.Aggregates;
 
-public abstract class AggregateRoot<TAggregate, TMemo> : IEventDrivenAggregate, IMemorizableAggregate<TAggregate, TMemo>
-    where TAggregate : AggregateRoot<TAggregate, TMemo>, new()
+public abstract class AggregateRoot<TAggregate, TAggregateId, TMemo> : IEventDrivenAggregate, IMemorizableAggregate<TAggregate, TMemo>
+    where TAggregate : AggregateRoot<TAggregate, TAggregateId, TMemo>, new()
+    where TAggregateId : notnull
     where TMemo : IAggregateMemo
 {
     private readonly HashSet<DomainEvent> storedEvents = new();

@@ -5,7 +5,7 @@ using GB.AccessManagement.Core.Aggregates;
 
 namespace GB.AccessManagement.Companies.Domain.Aggregates;
 
-public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, ICompanyMemo>
+public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, CompanyId, ICompanyMemo>
 {
     private readonly List<UserId> members = new();
     private CompanyName name;
