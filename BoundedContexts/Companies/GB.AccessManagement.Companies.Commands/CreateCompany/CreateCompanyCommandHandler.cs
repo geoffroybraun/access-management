@@ -7,18 +7,18 @@ namespace GB.AccessManagement.Companies.Commands.CreateCompany;
 public sealed class CreateCompanyCommandHandler : CommandHandler<CreateCompanyCommand, Guid>
 {
     private readonly ICompanyAggregateCreator creator;
-    private readonly ICompanyRepository repository;
+    private readonly ICompanyStore _store;
 
-    public CreateCompanyCommandHandler(ICompanyAggregateCreator creator, ICompanyRepository repository)
+    public CreateCompanyCommandHandler(ICompanyAggregateCreator creator, ICompanyStore store)
     {
         this.creator = creator;
-        this.repository = repository;
+        this._store = store;
     }
 
     protected override async Task<Guid> Handle(CreateCompanyCommand command)
     {
         var aggregate = this.creator.Create(command.Name, command.OwnerId, command.ParentCompanyId);
-        await this.repository.Save(aggregate);
+        await this._store.Save(aggregate);
 
         return aggregate.Id;
     }

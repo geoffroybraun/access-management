@@ -30,6 +30,15 @@ public sealed record CompanyDao : ICompanyMemo
         set => this.Name = value;
     }
     
+    [Column("owner_id")]
+    public Guid OwnerId { get; set; }
+
+    UserId ICompanyMemo.OwnerId
+    {
+        get => this.OwnerId;
+        set => this.OwnerId = value;
+    }
+    
     [Column("parent_company_id")]
     public Guid? ParentCompanyId { get; set; }
 

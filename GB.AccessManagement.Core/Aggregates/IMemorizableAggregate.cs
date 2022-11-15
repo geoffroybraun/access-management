@@ -4,7 +4,7 @@ using GB.AccessManagement.Core.Events;
 namespace GB.AccessManagement.Core.Aggregates;
 
 public interface IMemorizableAggregate<out TAggregate, in TMemo>
-    where TAggregate : IMemorizableAggregate<TAggregate, TMemo>, new()
+    where TAggregate : IMemorizableAggregate<TAggregate, TMemo>
     where TMemo : IAggregateMemo
 {
     TAggregate Load(TMemo memo);

@@ -5,11 +5,13 @@ using GB.AccessManagement.Core.Events;
 namespace GB.AccessManagement.Core.Aggregates;
 
 public abstract class AggregateRoot<TAggregate, TAggregateId, TMemo> : IEventDrivenAggregate, IMemorizableAggregate<TAggregate, TMemo>
-    where TAggregate : AggregateRoot<TAggregate, TAggregateId, TMemo>, new()
+    where TAggregate : AggregateRoot<TAggregate, TAggregateId, TMemo>
     where TAggregateId : notnull
     where TMemo : IAggregateMemo
 {
     private readonly HashSet<DomainEvent> storedEvents = new();
+    
+    public TAggregateId Id { get; protected set; }
 
     public DomainEvent[] UncommittedEvents => this.storedEvents.Where(@event => !@event.HasBeenCommitted).ToArray();
     

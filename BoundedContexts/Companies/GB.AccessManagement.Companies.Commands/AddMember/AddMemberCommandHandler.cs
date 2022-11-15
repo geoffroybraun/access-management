@@ -5,17 +5,17 @@ namespace GB.AccessManagement.Companies.Commands.AddMember;
 
 public sealed class AddMemberCommandHandler : CommandHandler<AddMemberCommand>
 {
-    private readonly ICompanyRepository repository;
+    private readonly ICompanyStore _store;
 
-    public AddMemberCommandHandler(ICompanyRepository repository)
+    public AddMemberCommandHandler(ICompanyStore store)
     {
-        this.repository = repository;
+        this._store = store;
     }
 
     protected override async Task Handle(AddMemberCommand command)
     {
-        var aggregate = await this.repository.Load(command.CompanyId);
+        var aggregate = await this._store.Load(command.CompanyId);
         aggregate.AddMember(command.MemberId);
-        await this.repository.Save(aggregate);
+        await this._store.Save(aggregate);
     }
 }

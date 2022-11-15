@@ -1,10 +1,13 @@
 using GB.AccessManagement.Accesses.Contracts.Queries;
+using GB.AccessManagement.Companies.Commands;
 using GB.AccessManagement.Companies.Contracts.Presentations;
 using GB.AccessManagement.Companies.Domain.Aggregates;
+using GB.AccessManagement.Companies.Domain.Factories;
 using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Companies.Infrastructure.Contexts;
 using GB.AccessManagement.Companies.Infrastructure.Daos;
+using GB.AccessManagement.Companies.Queries;
 using GB.AccessManagement.Core.Aggregates.Memos;
 using GB.AccessManagement.Core.Events.Publishers;
 using GB.AccessManagement.Core.Services;
@@ -13,31 +16,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GB.AccessManagement.Companies.Infrastructure;
 
-public sealed class CompanyRepository : Commands.ICompanyRepository, Queries.ICompanyRepository, IScopedService
+public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScopedService
 {
     private const string ObjectType = "companies";
     private const string Relation = "member";
     private readonly CompanyDbContext dbContext;
-    private readonly IMediator mediator;
     private readonly IDomainEventPublisher publisher;
+    private readonly IMediator mediator;
+    private readonly ICompanyAggregateLoader loader;
 
-    public CompanyRepository(CompanyDbContext dbContext, IMediator mediator, IDomainEventPublisher publisher)
+    public CompanyRepository(
+        CompanyDbContext dbContext,
+        IDomainEventPublisher publisher,
+        IMediator mediator,
+        ICompanyAggregateLoader loader)
     {
         this.dbContext = dbContext;
         this.mediator = mediator;
+        this.loader = loader;
         this.publisher = publisher;
     }
 
     public async Task<CompanyAggregate> Load(CompanyId id)
     {
-        var dao = await FindAsync(id);
+        ICompanyMemo memo = await FindAsync(id);
         var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, id.ToString(), Relation));
-        (dao as ICompanyMemo).Members = new List<UserId>(members.Select(member => (UserId)member));
-        
-        var aggregate = new CompanyAggregate();
-        aggregate.Load(dao);
+        memo.Members = new List<UserId>(members.Select(member => (UserId)member));
 
-        return aggregate;
+        return loader.Load(memo);
     }
 
     public async Task Save(CompanyAggregate aggregate)

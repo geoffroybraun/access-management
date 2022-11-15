@@ -13,6 +13,11 @@ public sealed partial class CompanyAggregate
         memo.Name = @event.Name;
     }
 
+    public void Save(ICompanyMemo memo, CompanyOwnerDefinedEvent @event)
+    {
+        memo.OwnerId = @event.OwnerId;
+    }
+
     public void Save(ICompanyMemo memo, CompanyMemberAddedEvent @event)
     {
         memo.State = EMemoState.Unchanged;

@@ -11,10 +11,6 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, C
     private CompanyName name;
     private UserId? ownerId;
     private CompanyId? parentCompanyId;
-
-    public CompanyId Id { get; private set; }
-
-    public CompanyAggregate() { }
     
     private CompanyAggregate(CompanyId id, CompanyName name)
     {

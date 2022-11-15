@@ -5,4 +5,4 @@ using GB.AccessManagement.Core.Aggregates.Stores;
 
 namespace GB.AccessManagement.Companies.Commands;
 
-public interface ICompanyRepository : IAggregateStore<CompanyAggregate, CompanyId, ICompanyMemo> { }
+public interface ICompanyStore : IAggregateStore<CompanyAggregate, CompanyId, ICompanyMemo> { }
