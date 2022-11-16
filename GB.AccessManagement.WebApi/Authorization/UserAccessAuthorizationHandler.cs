@@ -1,18 +1,18 @@
 using System.Security.Claims;
-using GB.AccessManagement.Accesses.Domain.Evaluators;
-using GB.AccessManagement.Accesses.Domain.ValueTypes;
+using GB.AccessManagement.Accesses.Contracts.Queries;
 using GB.AccessManagement.Core.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 
 namespace GB.AccessManagement.WebApi.Authorization;
 
 public sealed class UserAccessAuthorizationHandler : AuthorizationHandler<UserAccessAuthorizationRequirement>, ISingletonService
 {
-    private readonly IUserAccessEvaluator evaluator;
+    private readonly IMediator mediator;
 
-    public UserAccessAuthorizationHandler(IUserAccessEvaluator evaluator)
+    public UserAccessAuthorizationHandler(IMediator mediator)
     {
-        this.evaluator = evaluator;
+        this.mediator = mediator;
     }
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, UserAccessAuthorizationRequirement requirement)
@@ -23,9 +23,9 @@ public sealed class UserAccessAuthorizationHandler : AuthorizationHandler<UserAc
         }
 
         string userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        UserAccess access = new(userId, requirement.ObjectType, requirement.ObjectId, requirement.Relation);
+        var query = new CanAccessQuery(userId, requirement.ObjectType, requirement.ObjectId, requirement.Relation);
 
-        if (await this.evaluator.CanAccess(access))
+        if (await this.mediator.Send(query))
         {
             context.Succeed(requirement);
         }

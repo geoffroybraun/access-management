@@ -15,10 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\GB.AccessManagement.Core\GB.AccessManagement.Core.csproj" />
       <ProjectReference Include="..\GB.AccessManagement.Accesses.Commands\GB.AccessManagement.Accesses.Commands.csproj" />
-      <ProjectReference Include="..\GB.AccessManagement.Accesses.Contracts\GB.AccessManagement.Accesses.Contracts.csproj" />
-      <ProjectReference Include="..\GB.AccessManagement.Accesses.Domain\GB.AccessManagement.Accesses.Domain.csproj" />
       <ProjectReference Include="..\GB.AccessManagement.Accesses.Queries\GB.AccessManagement.Accesses.Queries.csproj" />
     </ItemGroup>
 
