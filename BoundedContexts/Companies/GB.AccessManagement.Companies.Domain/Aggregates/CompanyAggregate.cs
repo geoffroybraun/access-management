@@ -1,4 +1,5 @@
 using GB.AccessManagement.Companies.Domain.Events.Companies;
+using GB.AccessManagement.Companies.Domain.Exceptions;
 using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Core.Aggregates;
@@ -22,12 +23,22 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, C
 
     public void AddMember(UserId memberId)
     {
+        if (members.Contains(memberId))
+        {
+            throw new MemberAlreadyAddedException(memberId, this.Id);
+        }
+        
         this.members.Add(memberId);
         this.StoreEvent(new CompanyMemberAddedEvent(this.Id, memberId));
     }
 
     public void RemoveMember(UserId memberId)
     {
+        if (!members.Contains(memberId))
+        {
+            throw new MissingCompanyMemberException(memberId, this.Id);
+        }
+        
         this.members.Remove(memberId);
         this.StoreEvent(new CompanyMemberRemovedEvent(this.Id, memberId));
     }

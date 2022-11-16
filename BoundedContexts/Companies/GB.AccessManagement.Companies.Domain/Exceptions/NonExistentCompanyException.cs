@@ -8,5 +8,5 @@ public sealed class NonExistentCompanyException : DomainException
 {
     private const string MessagePattern = "Company {0} does not exist.";
     
-    public NonExistentCompanyException(CompanyId id) : base(string.Format(MessagePattern, id)) { }
+    public NonExistentCompanyException(Guid id) : base(string.Format(MessagePattern, id)) { }
 }

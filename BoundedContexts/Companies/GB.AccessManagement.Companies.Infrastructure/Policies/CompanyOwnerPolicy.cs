@@ -24,7 +24,7 @@ public sealed class CompanyOwnerPolicy : ICompanyOwnerPolicy, IScopedService
 
         if (!await this.mediator.Send(query))
         {
-            throw new MissingCompanyAccessException(userId.ToString(), Relation, companyId.ToString());
+            throw new MissingCompanyAccessException(userId, Relation, companyId);
         }
     }
 }
