@@ -11,10 +11,12 @@ public sealed partial class CompanyAggregate
     public sealed class CompanyAggregateCreator : ICompanyAggregateCreator, IScopedService
     {
         private readonly ICompanyExistPolicy companyExistPolicy;
+        private readonly ICompanyOwnerPolicy companyOwnerPolicy;
 
-        public CompanyAggregateCreator(ICompanyExistPolicy companyExistPolicy)
+        public CompanyAggregateCreator(ICompanyExistPolicy companyExistPolicy, ICompanyOwnerPolicy companyOwnerPolicy)
         {
             this.companyExistPolicy = companyExistPolicy;
+            this.companyOwnerPolicy = companyOwnerPolicy;
         }
 
         public async Task<CompanyAggregate> Create(CompanyName name, UserId ownerId, CompanyId? parentCompanyId)
@@ -22,6 +24,7 @@ public sealed partial class CompanyAggregate
             if (parentCompanyId is not null)
             {
                 await this.companyExistPolicy.EnsureCompanyExists(parentCompanyId);
+                await this.companyOwnerPolicy.EnsureUserIsCompanyOwner(ownerId, parentCompanyId);
             }
             
             var aggregate = new CompanyAggregate(Guid.NewGuid(), name, ownerId, parentCompanyId);
