@@ -40,7 +40,7 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
     public async Task<CompanyAggregate> Load(CompanyId id)
     {
         ICompanyMemo memo = await FindAsync(id);
-        var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, id.ToString(), Relation));
+        var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, id.ToString(), Relation, true));
         memo.Members = new List<UserId>(members.Select(member => (UserId)member));
 
         return loader.Load(memo);
@@ -57,6 +57,14 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
 
         await this.Save(dao);
         await this.publisher.Publish(aggregate.UncommittedEvents);
+    }
+
+    public async Task<bool> Exist(CompanyId id)
+    {
+        return await dbContext
+            .Companies
+            .AsNoTracking()
+            .AnyAsync(company => company.Id == (Guid)id);
     }
 
     public async Task<CompanyPresentation[]> List(CompanyId[] ids)

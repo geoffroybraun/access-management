@@ -17,7 +17,7 @@ public sealed class CreateCompanyCommandHandler : CommandHandler<CreateCompanyCo
 
     protected override async Task<Guid> Handle(CreateCompanyCommand command)
     {
-        var aggregate = this.creator.Create(command.Name, command.OwnerId, command.ParentCompanyId);
+        var aggregate = await this.creator.Create(command.Name, command.OwnerId, command.ParentCompanyId);
         await this.store.Save(aggregate);
 
         return aggregate.Id;

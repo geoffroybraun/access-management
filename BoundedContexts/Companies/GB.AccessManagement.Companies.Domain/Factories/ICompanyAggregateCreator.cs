@@ -5,5 +5,5 @@ namespace GB.AccessManagement.Companies.Domain.Factories;
 
 public interface ICompanyAggregateCreator
 {
-    CompanyAggregate Create(CompanyName name, UserId ownerId, CompanyId? parentCompanyId);
+    Task<CompanyAggregate> Create(CompanyName name, UserId ownerId, CompanyId? parentCompanyId);
 }

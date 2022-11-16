@@ -15,6 +15,8 @@ public sealed partial class CompanyAggregate :
         memo.State = EMemoState.Created;
         memo.Id = @event.Id;
         memo.Name = @event.Name;
+        memo.OwnerId = @event.OwnerId;
+        memo.ParentCompanyId = @event.ParentCompanyId;
     }
 
     public void Apply(CompanyMemberAddedEvent @event, ICompanyMemo memo)
