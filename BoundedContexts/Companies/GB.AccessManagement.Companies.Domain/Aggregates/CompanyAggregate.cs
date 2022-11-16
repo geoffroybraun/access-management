@@ -9,7 +9,7 @@ public sealed partial class CompanyAggregate : AggregateRoot<CompanyAggregate, C
 {
     private readonly List<UserId> members = new();
     private readonly CompanyName name;
-    private readonly UserId? ownerId;
+    private readonly UserId ownerId;
     private readonly CompanyId? parentCompanyId;
     
     private CompanyAggregate(CompanyId id, CompanyName name, UserId ownerId, CompanyId? parentCompanyId)

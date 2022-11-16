@@ -29,7 +29,6 @@ public sealed class CompanyController : ControllerBase
     [HttpPost("users/{user}/companies")]
     [ProducesResponseType(typeof(CreateCompanyCommand), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> Create(
         [FromRoute(Name = "user")] Guid userId,

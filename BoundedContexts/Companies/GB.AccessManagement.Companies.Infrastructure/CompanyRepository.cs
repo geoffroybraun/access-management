@@ -59,6 +59,14 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
         await this.publisher.Publish(aggregate.UncommittedEvents);
     }
 
+    public async Task<bool> Exist(CompanyId id)
+    {
+        return await dbContext
+            .Companies
+            .AsNoTracking()
+            .AnyAsync(company => company.Id == (Guid)id);
+    }
+
     public async Task<CompanyPresentation[]> List(CompanyId[] ids)
     {
         Guid[] companyIds = ids
