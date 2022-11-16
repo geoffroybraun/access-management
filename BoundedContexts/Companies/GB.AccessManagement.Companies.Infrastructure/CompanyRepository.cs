@@ -40,7 +40,7 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
     public async Task<CompanyAggregate> Load(CompanyId id)
     {
         ICompanyMemo memo = await FindAsync(id);
-        var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, id.ToString(), Relation));
+        var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, id.ToString(), Relation, true));
         memo.Members = new List<UserId>(members.Select(member => (UserId)member));
 
         return loader.Load(memo);

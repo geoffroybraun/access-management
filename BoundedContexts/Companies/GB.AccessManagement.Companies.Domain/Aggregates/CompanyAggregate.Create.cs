@@ -23,8 +23,8 @@ public sealed partial class CompanyAggregate
         {
             if (parentCompanyId is not null)
             {
-                await this.companyExistPolicy.EnsureCompanyExists(parentCompanyId);
-                await this.companyOwnerPolicy.EnsureUserIsCompanyOwner(ownerId, parentCompanyId);
+                await companyExistPolicy.EnsureCompanyExists(parentCompanyId);
+                await companyOwnerPolicy.EnsureUserIsCompanyOwner(ownerId, parentCompanyId);
             }
             
             var aggregate = new CompanyAggregate(Guid.NewGuid(), name, ownerId, parentCompanyId);
