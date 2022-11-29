@@ -30,7 +30,7 @@ public sealed class AccessController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> Create(
-        [FromRoute(Name = "user")] Guid userId,
+        [FromRoute(Name = "user")] string userId,
         [FromBody] CreateUserAccessRequest request)
     {
         _ = await this.mediator.Send(request.ToCommand(userId));
@@ -45,7 +45,7 @@ public sealed class AccessController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> List(
-        [FromRoute(Name = "user")] Guid userId,
+        [FromRoute(Name = "user")] string userId,
         [FromRoute(Name = "type")] string objectType)
     {
         ListUserAccessesQuery query = new(userId, objectType);
@@ -60,7 +60,7 @@ public sealed class AccessController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> Single(
-        [FromRoute(Name = "user")] Guid userId,
+        [FromRoute(Name = "user")] string userId,
         [FromRoute(Name = "type")] string objectType,
         [FromRoute(Name = "object")] string objectId)
     {
@@ -76,7 +76,7 @@ public sealed class AccessController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> Delete(
-        [FromRoute(Name = "user")] Guid userId,
+        [FromRoute(Name = "user")] string userId,
         [FromRoute(Name = "type")] string objectType,
         [FromRoute(Name = "object")] string objectId,
         [FromRoute] string relation)

@@ -124,4 +124,15 @@ public sealed class CompanyController : ControllerBase
 
         return parentCompany is not null ? this.Ok(parentCompany) : this.NotFound();
     }
+
+    [HttpGet("companies/{company}/children")]
+    [ProducesResponseType(typeof(CompanyPresentation), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Children([FromRoute(Name = "company")] Guid companyId)
+    {
+        var companyChildren = await this.mediator.Send(new CompanyChildrenQuery(companyId));
+
+        return this.Ok(companyChildren);
+    }
 }
