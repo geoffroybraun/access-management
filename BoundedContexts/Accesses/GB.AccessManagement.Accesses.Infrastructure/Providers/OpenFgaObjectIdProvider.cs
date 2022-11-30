@@ -1,9 +1,8 @@
 using GB.AccessManagement.Accesses.Domain.Providers;
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
+using GB.AccessManagement.Accesses.Infrastructure.Extensions;
 using GB.AccessManagement.Core.Services;
 using Microsoft.Extensions.Options;
-using OpenFga.Sdk.Api;
-using OpenFga.Sdk.Configuration;
 using OpenFga.Sdk.Model;
 
 namespace GB.AccessManagement.Accesses.Infrastructure.Providers;
@@ -21,7 +20,7 @@ public sealed class OpenFgaObjectIdProvider : IObjectIdProvider, IScopedService
 
     public async Task<ObjectId[]> List(UserId userId, ObjectType objectType, Relation relation)
     {
-        using var api = this.CreateApi();
+        using var api = this.factory.CreateApi(this.options);
         var response = await api.ListObjects(new ListObjectsRequest
         {
             User = userId.ToString(),
@@ -30,17 +29,5 @@ public sealed class OpenFgaObjectIdProvider : IObjectIdProvider, IScopedService
         });
 
         return response?.ObjectIds?.Select(id => (ObjectId)id).ToArray() ?? Array.Empty<ObjectId>();
-    }
-
-    private OpenFgaApi CreateApi()
-    {
-        var configuration = new Configuration
-        {
-            ApiHost = this.options.Host,
-            ApiScheme = this.options.Scheme,
-            StoreId = this.options.StoreId
-        };
-
-        return new OpenFgaApi(configuration, this.factory.CreateClient("default"));
     }
 }

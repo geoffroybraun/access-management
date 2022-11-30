@@ -18,10 +18,11 @@ public sealed class CompanyMembersQueryHandler : QueryHandler<CompanyMembersQuer
 
     protected override async Task<Guid[]> Handle(CompanyMembersQuery query)
     {
-        var userIdsQuery = new ListObjectUserIdsQuery(ObjectType, query.CompanyId.ToString(), Relation, true);
+        var userIdsQuery = new ObjectUserIdsQuery(ObjectType, query.CompanyId.ToString(), Relation, true);
         var userIds = await this.mediator.Send(userIdsQuery);
 
         return userIds
+            .Where(userId => !userId.Contains(':'))
             .Select(userId => Guid.Parse(userId))
             .ToArray();
     }

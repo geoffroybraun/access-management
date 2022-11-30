@@ -1,9 +1,8 @@
 using GB.AccessManagement.Accesses.Domain.Evaluators;
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
+using GB.AccessManagement.Accesses.Infrastructure.Extensions;
 using GB.AccessManagement.Core.Services;
 using Microsoft.Extensions.Options;
-using OpenFga.Sdk.Api;
-using OpenFga.Sdk.Configuration;
 using OpenFga.Sdk.Model;
 
 namespace GB.AccessManagement.Accesses.Infrastructure.Evaluators;
@@ -21,14 +20,7 @@ public sealed class OpenFgaUserAccessEvaluator : IUserAccessEvaluator, ISingleto
     
     public async Task<bool> CanAccess(UserAccess access)
     {
-        var configuration = new Configuration
-        {
-            ApiHost = this.options.Host,
-            ApiScheme = this.options.Scheme,
-            StoreId = this.options.StoreId
-        };
-        using var client = this.factory.CreateClient();
-        using OpenFgaApi api = new(configuration, client);
+        using var api = this.factory.CreateApi(this.options);
         var response = await api.Check(new CheckRequest
         {
             TupleKey = new()

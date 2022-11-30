@@ -4,7 +4,7 @@ using GB.AccessManagement.Core.Commands;
 
 namespace GB.AccessManagement.Companies.Commands.CreateCompany;
 
-public sealed class CreateCompanyCommandHandler : CommandHandler<CreateCompanyCommand, Guid>
+public sealed class CreateCompanyCommandHandler : CommandHandler<CreateCompanyCommand>
 {
     private readonly ICompanyAggregateCreator creator;
     private readonly ICompanyStore store;
@@ -15,11 +15,9 @@ public sealed class CreateCompanyCommandHandler : CommandHandler<CreateCompanyCo
         this.store = store;
     }
 
-    protected override async Task<Guid> Handle(CreateCompanyCommand command)
+    protected override async Task Handle(CreateCompanyCommand command)
     {
         var aggregate = await this.creator.Create(command.Name, command.OwnerId, command.ParentCompanyId);
         await this.store.Save(aggregate);
-
-        return aggregate.Id;
     }
 }

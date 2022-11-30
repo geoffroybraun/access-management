@@ -3,7 +3,7 @@ using GB.AccessManagement.Companies.Contracts.Queries;
 using GB.AccessManagement.Core.Queries;
 using MediatR;
 
-namespace GB.AccessManagement.Companies.Queries.GetCompanyOwner;
+namespace GB.AccessManagement.Companies.Queries.CompanyOwner;
 
 public sealed class CompanyOwnerQueryHandler : QueryHandler<CompanyOwnerQuery, Guid>
 {
@@ -18,7 +18,7 @@ public sealed class CompanyOwnerQueryHandler : QueryHandler<CompanyOwnerQuery, G
 
     protected override async Task<Guid> Handle(CompanyOwnerQuery query)
     {
-        var membersQuery = new ListObjectUserIdsQuery(ObjectType, query.CompanyId.ToString(), Relation);
+        var membersQuery = new ObjectUserIdsQuery(ObjectType, query.CompanyId.ToString(), Relation);
         var userIds = await this._mediator.Send(membersQuery);
 
         return Guid.Parse(userIds.Single());

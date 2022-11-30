@@ -5,7 +5,7 @@ using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Core.Queries;
 using MediatR;
 
-namespace GB.AccessManagement.Companies.Queries.ListUserCompanies;
+namespace GB.AccessManagement.Companies.Queries.UserCompanies;
 
 public sealed class UserCompaniesQueryHandler : QueryHandler<UserCompaniesQuery, CompanyPresentation[]>
 {
@@ -22,7 +22,7 @@ public sealed class UserCompaniesQueryHandler : QueryHandler<UserCompaniesQuery,
 
     protected override async Task<CompanyPresentation[]> Handle(UserCompaniesQuery query)
     {
-        var companyIdsQuery = new ListUserObjectIdsQuery(query.UserId.ToString(), OvjectType, Relation);
+        var companyIdsQuery = new UserObjectIdsQuery(query.UserId.ToString(), OvjectType, Relation);
         var companyIds = await this.mediator.Send(companyIdsQuery);
 
         if (!companyIds.Any())

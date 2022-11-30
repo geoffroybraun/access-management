@@ -1,10 +1,9 @@
 using GB.AccessManagement.Accesses.Domain.Providers;
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
+using GB.AccessManagement.Accesses.Infrastructure.Extensions;
 using GB.AccessManagement.Accesses.Infrastructure.Visitors;
 using GB.AccessManagement.Core.Services;
 using Microsoft.Extensions.Options;
-using OpenFga.Sdk.Api;
-using OpenFga.Sdk.Configuration;
 using OpenFga.Sdk.Model;
 
 namespace GB.AccessManagement.Accesses.Infrastructure.Providers;
@@ -27,28 +26,16 @@ public sealed class OpenFgaRecursiveUserIdProvider : IRecursiveUserIdProvider, I
 
     public async Task<UserId[]> Expand(ObjectType objectType, ObjectId objectId, Relation relation)
     {
-        using var api = this.CreateApi();
+        using var api = this.factory.CreateApi(this.options);
         var response = await api.Expand(new ExpandRequest
         {
             TupleKey = new()
             {
-                Object = $"{objectType.ToString()}:{objectId.ToString()}",
+                Object = $"{objectType}:{objectId}",
                 Relation = relation.ToString()
             }
         });
 
         return await this.visitor.Visit(response.Tree);
-    }
-
-    private OpenFgaApi CreateApi()
-    {
-        var configuration = new Configuration
-        {
-            ApiHost = this.options.Host,
-            ApiScheme = this.options.Scheme,
-            StoreId = this.options.StoreId
-        };
-
-        return new OpenFgaApi(configuration, this.factory.CreateClient("default"));
     }
 }

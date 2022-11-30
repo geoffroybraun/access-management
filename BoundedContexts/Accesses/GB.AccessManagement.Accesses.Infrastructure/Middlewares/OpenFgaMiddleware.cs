@@ -1,8 +1,7 @@
+using GB.AccessManagement.Accesses.Infrastructure.Extensions;
 using GB.AccessManagement.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using OpenFga.Sdk.Api;
-using OpenFga.Sdk.Configuration;
 using OpenFga.Sdk.Model;
 
 namespace GB.AccessManagement.Accesses.Infrastructure.Middlewares;
@@ -27,12 +26,7 @@ public sealed class OpenFgaMiddleware : IMiddleware, ISelfTransientService
 
     private async Task<string> GetStoreId()
     {
-        var configuration = new Configuration()
-        {
-            ApiHost = this.options.Host,
-            ApiScheme = this.options.Scheme
-        };
-        using var api = new OpenFgaApi(configuration, this.factory.CreateClient("default"));
+        using var api = this.factory.CreateApi(this.options);
         var response = await api.ListStores();
 
         if (response.Stores is not null && response.Stores.Any(HasStoreNamedAfterOptions))

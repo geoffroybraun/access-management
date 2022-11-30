@@ -3,9 +3,9 @@ using GB.AccessManagement.Accesses.Domain.Providers;
 using GB.AccessManagement.Accesses.Domain.ValueTypes;
 using GB.AccessManagement.Core.Queries;
 
-namespace GB.AccessManagement.Accesses.Queries.ListObjectUserIds;
+namespace GB.AccessManagement.Accesses.Queries.ObjectUserIds;
 
-public sealed class ListObjectUserIdsQueryHandler : QueryHandler<ListObjectUserIdsQuery, string[]>
+public sealed class ListObjectUserIdsQueryHandler : QueryHandler<ObjectUserIdsQuery, string[]>
 {
     private readonly IUserIdProvider provider;
     private readonly IRecursiveUserIdProvider recursiveProvider;
@@ -16,7 +16,7 @@ public sealed class ListObjectUserIdsQueryHandler : QueryHandler<ListObjectUserI
         this.recursiveProvider = recursiveProvider;
     }
 
-    protected override async Task<string[]> Handle(ListObjectUserIdsQuery query)
+    protected override async Task<string[]> Handle(ObjectUserIdsQuery query)
     {
         UserId[] userIds;
 

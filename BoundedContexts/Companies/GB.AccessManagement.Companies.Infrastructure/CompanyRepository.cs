@@ -7,6 +7,7 @@ using GB.AccessManagement.Companies.Domain.Memos;
 using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Companies.Infrastructure.Contexts;
 using GB.AccessManagement.Companies.Infrastructure.Daos;
+using GB.AccessManagement.Companies.Infrastructure.Extensions;
 using GB.AccessManagement.Companies.Queries;
 using GB.AccessManagement.Core.Aggregates.Memos;
 using GB.AccessManagement.Core.Events.Publishers;
@@ -40,8 +41,7 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
     public async Task<CompanyAggregate> Load(CompanyId id)
     {
         ICompanyMemo memo = await FindAsync(id);
-        var members = await this.mediator.Send(new ListObjectUserIdsQuery(ObjectType, id.ToString(), Relation, true));
-        memo.Members = new List<UserId>(members.Select(member => (UserId)member));
+        memo.Members = await this.FindMembers(id);
 
         return loader.Load(memo);
     }
@@ -69,15 +69,13 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
 
     public async Task<CompanyPresentation[]> List(CompanyId[] ids)
     {
-        Guid[] companyIds = ids
-            .Select(id => Guid.Parse(id.ToString()))
-            .ToArray();
+        
         
         return await dbContext
             .Companies
             .AsNoTracking()
-            .Where(company => companyIds.Contains(company.Id))
-            .Select(company => new CompanyPresentation(company.Id, company.Name))
+            .Filter(ids)
+            .AsPresentations()
             .ToArrayAsync();
     }
 
@@ -86,8 +84,8 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
         return await this.dbContext
             .Companies
             .AsNoTracking()
-            .Where(company => company.Id == (Guid) id)
-            .Select(company => new CompanyPresentation(company.Id, company.Name))
+            .ForCompany(id)
+            .AsPresentations()
             .SingleAsync();
     }
 
@@ -96,6 +94,17 @@ public sealed class CompanyRepository : ICompanyStore, ICompanyRepository, IScop
         var dao = await this.dbContext.Companies.SingleOrDefaultAsync(company => company.Id == companyId);
 
         return dao ?? new CompanyDao();
+    }
+
+    private async Task<List<UserId>> FindMembers(Guid companyId)
+    {
+        var query = new ObjectUserIdsQuery(ObjectType, companyId.ToString(), Relation, true);
+        var members = await this.mediator.Send(query);
+        
+        return members
+            .ExcludeNonUsers()
+            .AsUserIds()
+            .ToList();
     }
 
     private async Task Save(IAggregateMemo memo)

@@ -38,7 +38,7 @@ public sealed class CompanChildrenQueryHandler : QueryHandler<CompanyChildrenQue
 
     private async Task<string[]> GetCompanyChildrenIds(Guid companyId)
     {
-        var query = new ListUserObjectIdsQuery($"{ObjectType}:{companyId}", ObjectType, Relation);
+        var query = new UserObjectIdsQuery($"{ObjectType}:{companyId}", ObjectType, Relation);
 
         return await this.mediator.Send(query);
     }

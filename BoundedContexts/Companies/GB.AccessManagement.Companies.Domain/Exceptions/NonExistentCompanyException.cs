@@ -1,4 +1,3 @@
-using GB.AccessManagement.Companies.Domain.ValueTypes;
 using GB.AccessManagement.Core.Exceptions;
 
 namespace GB.AccessManagement.Companies.Domain.Exceptions;

@@ -22,13 +22,13 @@ public abstract class AggregateRoot<TAggregate, TAggregateId, TMemo> : IEventDri
 
     public void Save<TEvent>(TEvent @event, TMemo memo) where TEvent : DomainEvent
     {
-        if (this is IEventApplierAggregate<TEvent, TMemo> eventApplier)
+        if (this is not IEventApplierAggregate<TEvent, TMemo> eventApplier)
         {
-            eventApplier.Apply(@event, memo);
-
-            return;
+            throw new MissingMethodException(
+                nameof(IEventApplierAggregate<TEvent, TMemo>),
+                nameof(IEventApplierAggregate<TEvent, TMemo>.Apply));
         }
-        
-        throw new MissingMethodException();
+            
+        eventApplier.Apply(@event, memo);
     }
 }
