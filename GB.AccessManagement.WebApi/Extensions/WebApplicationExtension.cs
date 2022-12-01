@@ -5,43 +5,23 @@ namespace GB.AccessManagement.WebApi.Extensions;
 
 public static class WebApplicationExtension
 {
-    public static WebApplication UseProblemDetails(this WebApplication app)
-    {
-        return app.Use<ProblemDetailsConfiguration>();
-    }
-    
-    public static WebApplication UseAccesses(this WebApplication app)
+    public static IApplicationBuilder UseAccesses(this IApplicationBuilder app)
     {
         return app.Use<AccessesConfiguration>();
     }
     
-    public static WebApplication UseAuthentication(this WebApplication app)
-    {
-        return app.Use<AuthenticationConfiguration>();
-    }
-    
-    public static WebApplication UseAuthorization(this WebApplication app)
-    {
-        return app.Use<AuthorizationConfiguration>();
-    }
-
-    public static WebApplication UseControllers(this WebApplication app)
-    {
-        return app.Use<ControllersConfiguration>();
-    }
-    
-    public static WebApplication UseSwagger(this WebApplication app)
+    public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
     {
         return app.Use<SwaggerConfiguration>();
     }
     
-    private static WebApplication Use<TConfiguration>(this WebApplication app)
+    private static IApplicationBuilder Use<TConfiguration>(this IApplicationBuilder app)
         where TConfiguration : IMiddlewareConfiguration, new()
     {
         return app.Use(new TConfiguration());
     }
     
-    private static WebApplication Use<TConfiguration>(this WebApplication app, TConfiguration configuration)
+    private static IApplicationBuilder Use<TConfiguration>(this IApplicationBuilder app, TConfiguration configuration)
         where TConfiguration : IMiddlewareConfiguration
     {
         configuration.Use(app);

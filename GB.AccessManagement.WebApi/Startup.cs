@@ -1,4 +1,5 @@
 using GB.AccessManagement.WebApi.Extensions;
+using Hellang.Middleware.ProblemDetails;
 
 namespace GB.AccessManagement.WebApi;
 
@@ -19,14 +20,15 @@ public sealed class Startup
             .ConfigureVersioning();
     }
 
-    public void Configure(WebApplication app)
+    public void Configure(IApplicationBuilder app)
     {
         _ = app
             .UseProblemDetails()
             .UseAccesses()
+            .UseRouting()
             .UseAuthentication()
             .UseAuthorization()
-            .UseControllers()
+            .UseEndpoints(endpoints => _ = endpoints.MapControllers())
             .UseSwagger();
     }
 }

@@ -4,14 +4,14 @@ namespace GB.AccessManagement.WebApi.Configurations.MiddlewareConfigurations;
 
 public sealed class SwaggerConfiguration : IMiddlewareConfiguration
 {
-    public void Use(WebApplication app)
+    public void Use(IApplicationBuilder app)
     {
         _ = app
             .UseSwagger()
             .UseSwaggerUI(options =>
             {
                 var descriptions = app
-                    .Services
+                    .ApplicationServices
                     .GetRequiredService<IApiVersionDescriptionProvider>()
                     .ApiVersionDescriptions
                     .OrderByDescending(description => description.ApiVersion)

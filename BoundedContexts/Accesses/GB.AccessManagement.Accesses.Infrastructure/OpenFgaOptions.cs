@@ -6,6 +6,8 @@ public sealed record OpenFgaOptions
 {
     private Uri BaseUri => new(this.BaseAddress);
     
+    public bool IgnoreInitialization { get; init; }
+    
     [Required]
     [Url]
     public string BaseAddress { get; init; } = string.Empty;

@@ -22,6 +22,9 @@ public sealed class ProblemDetailsConfiguration : IServicesConfiguration
                     type: exception.GetType().Name,
                     detail: exception.Message);
             });
+            
+            options.Map<Exception>((_, e) => throw e);
+            
             options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
         });
     }

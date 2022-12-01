@@ -6,7 +6,7 @@ namespace GB.AccessManagement.WebApi.Configurations.MiddlewareConfigurations;
 
 public sealed class AccessesConfiguration : IMiddlewareConfiguration
 {
-    public void Use(WebApplication app)
+    public void Use(IApplicationBuilder app)
     {
         _ = app.UseWhen(AreOptionsNotValid, UseOpenFga);
     }
@@ -18,12 +18,13 @@ public sealed class AccessesConfiguration : IMiddlewareConfiguration
 
     private static bool AreOptionsValid(HttpContext context)
     {
-        OpenFgaOptions options = context
+        var options = context
             .RequestServices
             .GetRequiredService<IOptions<OpenFgaOptions>>()
             .Value;
 
-        return options.IsValid();
+        return !options.IgnoreInitialization
+               && options.IsValid();
     }
 
     private static void UseOpenFga(IApplicationBuilder builder)
