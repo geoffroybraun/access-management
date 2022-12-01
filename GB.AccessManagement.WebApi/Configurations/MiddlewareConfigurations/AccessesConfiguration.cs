@@ -18,13 +18,11 @@ public sealed class AccessesConfiguration : IMiddlewareConfiguration
 
     private static bool AreOptionsValid(HttpContext context)
     {
-        var options = context
+        return context
             .RequestServices
             .GetRequiredService<IOptions<OpenFgaOptions>>()
-            .Value;
-
-        return !options.IgnoreInitialization
-               && options.IsValid();
+            .Value
+            .IsValid();
     }
 
     private static void UseOpenFga(IApplicationBuilder builder)

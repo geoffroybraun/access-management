@@ -1,12 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("GB.AccessManagement.WebApi.AcceptanceTests")]
 namespace GB.AccessManagement.Accesses.Infrastructure;
 
 public sealed record OpenFgaOptions
 {
     private Uri BaseUri => new(this.BaseAddress);
-    
-    public bool IgnoreInitialization { get; init; }
     
     [Required]
     [Url]

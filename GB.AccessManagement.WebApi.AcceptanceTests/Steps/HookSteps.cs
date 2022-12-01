@@ -1,6 +1,10 @@
+using GB.AccessManagement.WebApi.AcceptanceTests.Stubs;
+using GB.AccessManagement.WebApi.AcceptanceTests.Stubs.HttpClientFactories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Scrutor;
 using TechTalk.SpecFlow;
 
 namespace GB.AccessManagement.WebApi.AcceptanceTests.Steps;
@@ -47,8 +51,33 @@ public sealed class HookSteps : IDisposable
     {
         var builder = new WebHostBuilder()
             .UseStartup<Startup>()
-            .ConfigureAppConfiguration(configuration => configuration.AddJsonFile("appsettings.json"));
+            .ConfigureAppConfiguration(AddAppSettings)
+            .ConfigureServices(AddStubHostedService)
+            .ConfigureTestServices(AddStubServices);
         
         return new(builder);
+    }
+
+    private static void AddAppSettings(IConfigurationBuilder builder)
+    {
+        builder.AddJsonFile("appsettings.json");
+    }
+
+    private static void AddStubHostedService(IServiceCollection services)
+    {
+        services.AddHostedService<HttpClientFactoryStubHostedService>();
+    }
+
+    private static void AddStubServices(IServiceCollection services)
+    {
+        services.Scan(selector =>
+        {
+            _ = selector
+                .FromAssemblies(typeof(HookSteps).Assembly)
+                .AddClasses(classes => classes.AssignableTo<IStubService>())
+                .UsingRegistrationStrategy(RegistrationStrategy.Replace())
+                .AsSelfWithInterfaces()
+                .WithSingletonLifetime();
+        });
     }
 }
